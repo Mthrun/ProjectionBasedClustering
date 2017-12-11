@@ -1,0 +1,18 @@
+Package: ProjectionBasedClustering
+Type: Package
+Title: Projection Based Clustering
+Version: 1.0.4
+Authors@R: c(person("Michael", "Thrun", email= "m.thrun@gmx.net",role=c("aut","cre")),person("Florian", "Lerch",role="aut"),person("Felix", "Pape",role="aut"),person("Kristian", "Nybo",role="cph"),person("Jarkko", "Venna",role="cph"))
+Date: 2017-08-21
+Description:  A clustering approach for every projection method based on the generalized  U*-matrix visualization of a topographic map is made available here [Thrun/Ultsch,2017] <DOI:10.13140/RG.2.2.13124.53124>. The number of clusters and the cluster structure can be estimated by counting the valleys in a topographic map. If the number of clusters and the clustering method are chosen correctly, then the clusters will be well separated by mountains in the visualization. Most projection methods are wrappers for already available methods in R. However, the neighbor retrieval visualizer (NeRV) is based on C++ source code of the 'dredviz' software package and the Curvilinear Component Analysis (CCA) is translated from 'MATLAB' ('SOM Toolbox' 2.0) to R.
+License: GPL-3
+Imports: Rcpp, ggplot2, stats, graphics, vegan, deldir, geometry, GeneralizedUmatrix, shiny, shinyjs
+Suggests: fastICA, tsne, FastKNN, MASS, pcaPP, spdep, methods, pracma, grid, mgcv, fields, png, reshape2
+LinkingTo: Rcpp
+LazyData: TRUE
+Encoding: UTF-8
+SystemRequirements: C++11
+Depends: R (>= 3.0)
+NeedsCompilation: yes
+URL: https://www.uni-marburg.de/fb12/datenbionik/software-en
+LazyLoad: yes
