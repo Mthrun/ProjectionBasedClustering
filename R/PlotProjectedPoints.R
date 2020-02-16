@@ -136,6 +136,7 @@ PlotProjectedPoints <-  function(Points,Cls,BMUorProjected=F,PlotLegend=FALSE,xl
   # }
   #print(colornames)
   df = cbind(df, colornames)
+
   ggobject = ggplot(df, aes(X, Y, colour = colornames)) + geom_point(size =
                                                                        PointSize, colour = colornames) +
     ggtitle(main) + #coord_fixed(ratio = 1)+

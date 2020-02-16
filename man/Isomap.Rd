@@ -27,9 +27,12 @@ Even with a manifold structure, the sampling must be even and dense so that diss
 A wrapper for isomap of the package vegan
 
 if Data fragmented choose an higher k
+
+ You can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
 }
-
  \author{Michael Thrun}
-
+ \details{
+ An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
+ }
 \keyword{Isomap}
 \keyword{isomap}

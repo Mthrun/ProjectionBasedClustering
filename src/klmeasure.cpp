@@ -54,8 +54,8 @@ List c_klmeasure(NumericMatrix Data, NumericMatrix pData, int NeighborhoodSize =
     {
       if (j != i)
       {
-        ED_p_q += origProb(i,j) * log(origProb(i,j) / projProb(i,j));
-        ED_q_p += projProb(i,j) * log(projProb(i,j) / origProb(i,j));
+        ED_p_q += origProb(i,j) * std::log(origProb(i,j) / projProb(i,j));
+        ED_q_p += projProb(i,j) * std::log(projProb(i,j) / origProb(i,j));
       }
     }
   

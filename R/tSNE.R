@@ -1,4 +1,4 @@
-tSNE = function(DataOrDists,k,OutputDimension=2,method='euclidean',Whitening=TRUE,InitialDimensions=NULL, Iterations=1000,PlotIt=FALSE,Cls){
+tSNE = function(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',method='euclidean',Whitening=FALSE, Iterations=1000,PlotIt=FALSE,Cls,...){
 #  T-distributed Stochastic Neighbor Embedding
 #  
 #  res = tSNE(Data, k=30,OutputDimension=2)
@@ -6,15 +6,16 @@ tSNE = function(DataOrDists,k,OutputDimension=2,method='euclidean',Whitening=TRU
 # INPUT
 # DataOrDists[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
 #                           or distance matrix, in this case matrix has to be symmetric
-# k                       number of k nearest neighbors=number of effective nearest neighbors("perplexity")
+# k                         number of k nearest neighbors=number of effective nearest neighbors("perplexity")
 #                           Important parameter, if not given Settings of package t-SNE will be used
 #
 # OPTIONAL
 # OutputDimension           data is projected onto a R^p where P is the maximum ( default ==2)
+# Algorithm                 'tsne_cpp': T-Distributed Stochastic Neighbor Embedding using a Barnes-HutImplementation in C++
+#                            'tsne_r': pure R implementation of the t-SNE algorithm
 # method                    method specified by distance string: 
 #                          'euclidean','cityblock=manhatten','cosine','chebychev','jaccard','minkowski','manhattan','binary' 
 #
-# InitialDimensions         The number of dimensions to use in reduction method.
 # Iterations                maximum number of iterations to perform.
 # Whitening                 A boolean value indicating whether the matrix data should be whitened
 # PlotIt                    bool, defaut=FALSE, if =TRUE: ClassPlot of every current Position of Databots will be made.
@@ -32,34 +33,56 @@ tSNE = function(DataOrDists,k,OutputDimension=2,method='euclidean',Whitening=TRU
 	DataOrDists;
 	if(!is.matrix(DataOrDists))
 		stop('DataOrDists has to be a matrix, maybe use as.matrix()')
-		
-#  requireRpackage('tsne')
-requireNamespace('tsne')
+
   #if(missing(k)){
   #  warning('k - optimal number of neighbors value missing, setting k=30, see default value for perplexity in package tsne') 
   #  k=30
   #} 
-
+	is_distance=FALSE
   if(isSymmetric(DataOrDists)){
     DataDists=DataOrDists
     AnzVar=ncol(DataOrDists)
     AnzData=nrow(DataOrDists)
+    is_distance=TRUE
   }else{ #!isSymmetric
     AnzVar=ncol(DataOrDists)
     AnzData=nrow(DataOrDists)
-	if(is.null(InitialDimensions))
-		InitialDimensions=AnzVar
     #DataDists=DistanceMatrix(X=DataOrDists,method = method)
     DataDists = as.matrix(dist( x = DataOrDists, method = method))
   }# end if(isSymmetric(DataOrDists))
 	
-  if(!missing(k)){
-  res=tsne::tsne(X=DataDists, initial_config = NULL, k = OutputDimension, whiten=Whitening,initial_dims = InitialDimensions, perplexity = k, max_iter = Iterations, min_cost = 0,epoch=100)
-  }else{
-	res=tsne::tsne(X=DataDists, initial_config = NULL, k = OutputDimension, whiten=Whitening,initial_dims = InitialDimensions, max_iter = Iterations, min_cost = 0,epoch=100)
-  
-	}
-	ProjectedPoints=res
+  switch(Algorithm,
+         tsne_cpp={
+           if(is_distance){
+             if(!missing(k)){
+             ModelObject=Rtsne::Rtsne(X = DataDists,dims=OutputDimension,is_distance=is_distance,perplexity = k, max_iter = Iterations,pca=Whitening,...)#experimental
+             }else{
+               ModelObject=Rtsne::Rtsne(X = DataDists,dims=OutputDimension,is_distance=is_distance, max_iter = Iterations,pca=Whitening,...)#experimental
+             }
+           }else{
+             if(!missing(k)){
+               ModelObject=Rtsne::Rtsne(X = DataOrDists,dims=OutputDimension,is_distance=is_distance,perplexity = k, max_iter = Iterations,pca=Whitening,...)
+             }else{
+               ModelObject=Rtsne::Rtsne(X = DataOrDists,dims=OutputDimension,is_distance=is_distance, max_iter = Iterations,pca=Whitening,...)
+             }
+            
+           }
+           ProjectedPoints=ModelObject$Y
+         },
+  tsne_r={
+    requireNamespace('tsne')  
+    
+    if(!missing(k)){
+      res=tsne::tsne(X=DataDists, initial_config = NULL, k = OutputDimension, whiten=Whitening, perplexity = k, max_iter = Iterations, ...)
+    }else{
+      res=tsne::tsne(X=DataDists, initial_config = NULL, k = OutputDimension, whiten=Whitening, max_iter = Iterations, ...)
+      
+    }
+    ProjectedPoints=res
+    ModelObject=NULL
+  },{stop('Please choose either "tsne_cpp" or "tsne_r".')})
+
+
   if(PlotIt){
       if(missing(Cls)){
 		AnzData=nrow(DataOrDists)
@@ -73,5 +96,5 @@ requireNamespace('tsne')
     }
     PlotProjectedPoints(ProjectedPoints,Cls,main=string)
   } 
-return(list(ProjectedPoints=ProjectedPoints))
+return(list(ProjectedPoints=ProjectedPoints,ModelObject=ModelObject))
 }    

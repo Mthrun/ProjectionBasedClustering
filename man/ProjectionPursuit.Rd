@@ -39,3 +39,11 @@ Alpha=1,Iterations=200,PlotIt=FALSE,Cls)
 }
 \author{
 Michael Thrun}
+
+\note{
+ You can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
+}
+
+ \details{
+ An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
+ }

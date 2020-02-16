@@ -120,22 +120,22 @@ List klrank(NumericMatrix Data, NumericMatrix pData, int NeighborhoodSize=20) {
      {
        // Best case:
        ED_p_q_best += inputProb(i,j)
-       * log(inputProb(i,j) / outputProbBest(i,j));
+       * std::log(inputProb(i,j) / outputProbBest(i,j));
        ED_q_p_best += outputProbBest(i,j)
-         * log(outputProbBest(i,j) / inputProb(i,j));
+         * std::log(outputProbBest(i,j) / inputProb(i,j));
        
        // Worst case:
        ED_p_q_worst += inputProb(i,j)
-         * log(inputProb(i,j) / outputProbWorst(i,j));
+         * std::log(inputProb(i,j) / outputProbWorst(i,j));
        ED_q_p_worst += outputProbWorst(i,j)
-         * log(outputProbWorst(i,j) / inputProb(i,j));
+         * std::log(outputProbWorst(i,j) / inputProb(i,j));
        
        // Maximum error (for normalization):
        
        ED_p_q_max += inputProb(i,j)
-         * log(inputProb(i,j) / inputProbReversed(i,j));
+         * std::log(inputProb(i,j) / inputProbReversed(i,j));
        ED_q_p_max += inputProbReversed(i,j)
-         * log(inputProbReversed(i,j) / inputProb(i,j));
+         * std::log(inputProbReversed(i,j) / inputProb(i,j));
        
     }
   }

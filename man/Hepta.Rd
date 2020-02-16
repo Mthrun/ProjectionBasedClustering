@@ -22,4 +22,8 @@ Ultsch, A.: U* C: Self-organized Clustering with Emergent Feature Maps, Lernen, 
 data(Hepta)
 str(Hepta)
 }
-\keyword{datasets,Hepta,FCPS}
+\keyword{datasets}
+
+\keyword{Hepta}
+
+\keyword{FCPS}

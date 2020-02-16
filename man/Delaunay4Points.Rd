@@ -23,7 +23,7 @@ as
  Delaunay[1:n,1:n]               adjacency matrix of the Delaunay-Graph
 }
 \references{
-[Thrun, 2017]   Thrun, M. C.: A System for Projection Based Clustering through Self-Organization and Swarm Intelligence, (Doctoral dissertation), Philipps-Universität Marburg, Marburg, 2017.
+[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, ISBN: 978-3-658-20539-3, Heidelberg, 2018.
 }
 \author{
 Michael Thrun

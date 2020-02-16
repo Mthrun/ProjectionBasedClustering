@@ -124,10 +124,10 @@ NeRVCostFunction::evaluate(const DataMatrix & projData)
       {
         //              std::cerr << "p: "<< inputProb(row,col)<<" q: "<<outputProb(row,col)<< std::endl;
         cost += weights[row] * lambda * inputProb(row, col) *
-                (log(inputProb(row, col)) - log(outputProb(row, col)));
+                (std::log(inputProb(row, col)) - std::log(outputProb(row, col)));
 
         cost += weights[row] * (1.0 - lambda) * outputProb(row, col) *
-                (log(outputProb(row, col)) - log(inputProb(row, col)));
+                (std::log(outputProb(row, col)) - std::log(inputProb(row, col)));
       }
     }
   }
@@ -165,7 +165,7 @@ NeRVCostFunction::getGradient(const DataMatrix & projData,
       if (i != j)
       {
         dDval(i, j) =
-          (1.0 - lambda) * (log (outputProb(i, j)) - log (inputProb(i, j)) +
+          (1.0 - lambda) * (std::log (outputProb(i, j)) - std::log (inputProb(i, j)) +
                             1.0)
           -lambda * inputProb(i, j) / outputProb(i, j);
 
@@ -334,7 +334,7 @@ NeRVCostFunction::getGradient(const DataMatrix & projData,
       if (i != j)
       {
         dDval(i, j) =
-          (1.0 - lambda) * (log (outputProb(i, j)) - log (inputProb(i, j)) +
+          (1.0 - lambda) * (std::log (outputProb(i, j)) - std::log (inputProb(i, j)) +
                             1.0) - lambda * inputProb(i, j) / outputProb(i, j);
       }
     }

@@ -10,12 +10,20 @@ Projection Based Clustering
 The package is based on a conference talk [Thrun/Ultsch, 2017], see <DOI:10.13140/RG.2.2.13124.53124>. The abstract follows:
 
 Many data mining methods rely on some concept of the dissimilarity between pieces of information encoded in the data of interest. These methods can be used for cluster analysis. However, no generally accepted definition of clusters exists in the literature [Hennig et al., 2015]. Here, consistent with Bouveyron et al., it is assumed that a cluster is a group of similar objects [Bouveyron et al., 2012]. The clusters are called natural because they do not require a dissection; instead, they are clearly separated in the data [Duda et al., 2001,  Theodoridis/Koutroumbas, 2009,  pp. 579, 600]. These clusters can be identified by distance or density based high-dimensional structures. 
-Dimensionality reduction techniques are able to reduce the dimensions of the input space to facilitate the exploration of structures in high-dimensional data. If they are used for visualization, they are called projection methods. The generalized U*-matrix technique is applicable for these and can be used to visualize both distance- and density-based structures [Thrun 2017; Ultsch/Thrun, 2017]. The idea that the abstract U*-matrix (AU-matrix) can be used for clustering [Ultsch et al., 2016]. The distances required for hierarchical clustering are defined by the AU-matrix [Lötsch/Ultsch, 2014]. Using this distance we propose a clustering approach for every projection method based on the U*-matrix visualization of a topographic map [Thrun 2017; Thrun/Ultsch, 2017]. The number of clusters and the cluster structure can be estimated by counting the valleys in a topographic map  [Thrun et al., 2016]. If the number of clusters and the clustering method are chosen correctly, then the clusters will be well separated by mountains in the visualization. Outliers are represented as volcanoes and can be interactively marked in the visualization after the automated clustering process.
+Dimensionality reduction techniques are able to reduce the dimensions of the input space to facilitate the exploration of structures in high-dimensional data. If they are used for visualization, they are called projection methods. The generalized U*-matrix technique is applicable for these and can be used to visualize both distance- and density-based structures [Thrun 2018; Ultsch/Thrun, 2017]. The idea that the abstract U*-matrix (AU-matrix) can be used for clustering [Ultsch et al., 2016]. The distances required for hierarchical clustering are defined by the AU-matrix [Lötsch/Ultsch, 2014]. Using this distance we propose a clustering approach for every projection method based on the U*-matrix visualization of a topographic map [Thrun 2018; Thrun/Ultsch, 2017]. The number of clusters and the cluster structure can be estimated by counting the valleys in a topographic map  [Thrun et al., 2016]. If the number of clusters and the clustering method are chosen correctly, then the clusters will be well separated by mountains in the visualization. Outliers are represented as volcanoes and can be interactively marked in the visualization after the automated clustering process.
+}
+\details{
+A comparison of the Pswarm projection method [Thrun, 2018] using projection based clustering to 26 common clustering algorithms is provided in \url{http://www.deepbionics.org/Projects/ClusteringAlgorithms.html}.
+
 }
 \author{
-Michael Thrun, Felix Pape, Florian Lerch
+Michael Thrun, Felix Pape, Florian Lerch, Tim Schreier, Luis Winckelmann
 }
+\note{
+If you want to verifiy your clustering result externally, you can use \code{Heatmap} or \code{SilhouettePlot} of the CRAN package \code{DataVisualizations}.
 
+Additionally you can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
+}
 \references{
 [Thrun/Ultsch, 2017] Thrun, M.C., Ultsch, A.: Projection based Clustering, Conf. Int. Federation of Classification Societies (IFCS),DOI:10.13140/RG.2.2.13124.53124, Tokyo, 2017.
 
@@ -35,7 +43,7 @@ Michael Thrun, Felix Pape, Florian Lerch
 
 [Ultsch/Thrun, 2017]  Ultsch, A., & Thrun, M. C.: Credible Visualizations for Planar Projections, in Cottrell, M. (Ed.), 12th International Workshop on Self-Organizing Maps and Learning Vector Quantization, Clustering and Data Visualization (WSOM), IEEE Xplore, France, 2017.
 
-[Thrun, 2017]   Thrun, M. C.: A System for Projection Based Clustering through Self-Organization and Swarm Intelligence, (Doctoral dissertation), Philipps-Universität Marburg, Marburg, 2017.
+[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
 
 }
 
@@ -50,7 +58,17 @@ library(GeneralizedUmatrix)
 visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
 
 plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+}
+##Interactive Island Generation 
+## from a tiled Umatrix (toroidal assumption)
+\dontrun{
+	Imx = ProjectionBasedClustering::interactiveGeneralizedUmatrixIsland(visualization$Umatrix,
+	visualization$Bestmatches)
+	plotTopographicMap(visualization$Umatrix,
 
+	visualization$Bestmatches, Imx = Imx)
+}
+\donttest{
 # Automatic Clustering
 LC=c(visualization$Lines,visualization$Columns)
 # number of Cluster from dendrogram or visualization (PlotIt=T)
@@ -62,7 +80,4 @@ plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 ## Sometimes you can improve a Clustering interactivly or mark additional Outliers manually
 Cls2 = interactiveClustering(visualization$Umatrix, visualization$Bestmatches, Cls)
 }
-}
-\note{
-For interactive Island Generation of an generalized Umatrix see \code{interactiveGeneralizedUmatrixIsland} function in the package GeneralizedUmatrix.
 }

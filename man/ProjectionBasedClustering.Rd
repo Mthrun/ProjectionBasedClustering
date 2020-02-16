@@ -27,6 +27,10 @@ ProjectionBasedClustering is a flexible and robust clustering framework based on
  which generates projected points on a topographic map with hypsometric colors, see package GeneralizedUmatrix function GeneralizedUmatrix, 
  called the generalized U-matrix. The clustering method with no 
  sensitive parameters is done by this function. The clustering can be verified by the visualization and vice versa. 
+ 
+ If you want to verifiy your clustering result externally, you can use \code{Heatmap} or \code{SilhouettePlot} of the CRAN package \code{DataVisualizations}.
+
+ Additionally you can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
 }
 \value{
 Cls                 [1:n] vector with selected classes of the bestmatches. You can use \code{plotTopographicMap(Umatrix,Bestmatches,Cls)} for verification.
@@ -53,7 +57,7 @@ plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 \references{
 [Thrun/Ultsch, 2017] Thrun, M.C., Ultsch, A.: Projection based Clustering, Conf. Int. Federation of Classification Societies (IFCS),DOI:10.13140/RG.2.2.13124.53124, Tokyo, 2017.
 
-[Thrun, 2017]   Thrun, M. C.:A System for Projection Based Clustering through Self-Organization and Swarm Intelligence, (Doctoral dissertation), Philipps-Universität Marburg, Marburg, 2017.
+[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
 }
 \author{
 Michael Thrun
