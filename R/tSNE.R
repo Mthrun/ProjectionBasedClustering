@@ -39,7 +39,7 @@ tSNE = function(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',method='euc
   #  k=30
   #} 
 	is_distance=FALSE
-  if(isSymmetric(DataOrDists)){
+  if(isSymmetric(unname(DataOrDists))){
     DataDists=DataOrDists
     AnzVar=ncol(DataOrDists)
     AnzData=nrow(DataOrDists)

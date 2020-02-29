@@ -64,7 +64,7 @@ CCA = function(DataOrDists,Epochs,OutputDimension=2,method='euclidean', alpha0 =
   if (missing(lambda0))
     lambda0 = NULL
   
-  if (isSymmetric(DataOrDists)) {
+  if (isSymmetric(unname(DataOrDists))) {
     Mdist = DataOrDists
     AnzVar = ncol(DataOrDists)
     AnzData = nrow(DataOrDists)

@@ -29,7 +29,7 @@ ProjectionBasedClustering=function(k,Data,BestMatches,LC,StructureType=TRUE,Plot
     Data=as.matrix(Data)
   }
   
-  if (!isSymmetric(Data))
+  if (!isSymmetric(unname(Data)))
     string='Data'
   else
     string='Distances'

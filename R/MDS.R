@@ -26,7 +26,7 @@ MDS = function(DataOrDists,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls
 	if(!is.matrix(DataOrDists))
 		stop('DataOrDists has to be a matrix, maybe use as.matrix()')
 		
-  if(isSymmetric(DataOrDists)){
+  if(isSymmetric(unname(DataOrDists))){
     DataDists=DataOrDists
     AnzVar=ncol(DataOrDists)
     AnzData=nrow(DataOrDists)
