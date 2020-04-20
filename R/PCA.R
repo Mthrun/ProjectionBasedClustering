@@ -40,7 +40,7 @@ PCA  = function(Data,OutputDimension=2,Scale=FALSE,Center=FALSE,PlotIt=FALSE,Cls
     AnzVar=ncol(Data)
     AnzData=nrow(Data)
   
-res <- prcomp(x=Data,retx=T,scale=Scale,tol = 0,center=Center)
+res <- prcomp(x=Data,retx=T,scale. =Scale,tol = 0,center=Center)
 TransData=as.matrix(res$x)
 ProjectedPoints=TransData[,1:OutputDimension]
 Rotation <- res$rotation

@@ -33,12 +33,11 @@ projectionpoints=NeRV(Hepta$Data)
 #Computation of Generalized Umatrix
 library(GeneralizedUmatrix)
 visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
-
-
-
-# Semi-Automatic Clustering done interactivly in a  shiny gui
+}
+## Semi-Automatic Clustering done interactivly in a  shiny gui
+\dontrun{
 Cls = interactiveClustering(visualization$Umatrix, visualization$Bestmatches)
-#Plotting
+##Plotting
 plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 }
 }

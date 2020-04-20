@@ -12,7 +12,6 @@ interactiveProjectionBasedClustering <-
     outplot = NULL 
     oubmus = NULL 
     LC=NULL
-    DefaultColorSequence= DefaultColorSequence
     imx<-NA
     
     if(is.null(Cls))#give back all cases in one group, if function exists before clustering and no cls given
@@ -68,34 +67,7 @@ interactiveProjectionBasedClustering <-
       Key=1:nrow(Data)
       
     }
-    ## Schritt 1.9: Prepare GUI things.
-    #colormap <- c("#3C6DF0", "#3C6DF0", "#3C6DF0", "#006602",
-    #              "#006A02", "#006D01", "#007101", "#007501", "#007901",
-    #              "#007C00", "#008000", "#068103", "#118408", "#0B8305",
-    #              "#17860A", "#1D870D", "#228810", "#288A12", "#2E8B15",
-    #              "#348D18", "#398E1A", "#3F8F1D", "#45911F", "#4A9222",
-    #              "#509325", "#569527", "#5C962A", "#61982C", "#67992F",
-    #              "#6D9A32", "#729C34", "#789D37", "#7E9F39", "#84A03C",
-    #              "#89A13F", "#8FA341", "#95A444", "#9AA547", "#A0A749",
-    #              "#A6A84C", "#ACAA4E", "#B1AB51", "#B7AC54", "#BDAE56",
-    #              "#C3AF59", "#C8B15B", "#CEB25E", "#CBAF5C", "#C8AC59",
-    #              "#C5A957", "#C3A654", "#C0A352", "#BDA050", "#BA9D4D",
-    #              "#B7994B", "#B49648", "#B29346", "#AF9044", "#AC8D41",
-    #              "#A98A3F", "#A6873C", "#A3843A", "#A08138", "#9E7E35",
-    #              "#9B7B33", "#987830", "#95752E", "#92722B", "#8F6E29",
-    #              "#8C6B27", "#8A6824", "#876522", "#84621F", "#815F1D",
-    #              "#7E5C1B", "#7B5918", "#795616", "#765313", "#714E0F",
-    #              "#6C480B", "#674307", "#6F4D15", "#785822", "#806230",
-    #              "#896D3E", "#91774C", "#998159", "#A28C67", "#AA9675",
-    #              "#B3A183", "#BBAB90", "#C3B59E", "#CCC0AC", "#D4CABA",
-    #              "#DDD5C7", "#E5DFD5", "#E7E1D8", "#E9E4DB", "#EBE6DE",
-    #              "#ECE8E1", "#EEEAE4", "#F0EDE7", "#F2EFEA", "#F4F1ED",
-    #              "#F6F4F0", "#F8F6F3", "#F9F8F6", "#FBFAF9", "#FDFDFC",
-    #              "#FFFFFF", "#FFFFFF", "#FEFEFE", "#FEFEFE", "#FEFEFE",
-    #              "#FDFDFD", "#FDFDFD", "#FDFDFD", "#FCFCFC", "#FCFCFC",
-    #              "#FCFCFC", "#FBFBFB", "#FBFBFB", "#FBFBFB", "#FAFAFA",
-    #              "#FAFAFA", "#FAFAFA", "#F9F9F9", "#F9F9F9", "#FFFFFF",
-    #              "#FFFFFF")
+
     colormap=GeneralizedUmatrix::UmatrixColormap
     ax <- list(
       title = "",
@@ -149,7 +121,7 @@ interactiveProjectionBasedClustering <-
                               Shiny.onInputChange("dimension", dimension);
                               });
                               ')),
-        # shinythemes::themeSelector(),
+
         navbarPage(
           title = "Interactive Projection-Based Clustering",
           theme = shinythemes::shinytheme("flatly"),
@@ -286,19 +258,13 @@ interactiveProjectionBasedClustering <-
             ),
               mainPanel(
               
-              ##MT: Tim wieso brauchen wir bsModal? geht das nicht in shiny selber?
               plotly::plotlyOutput("Plot",
                                    # height =  
                                    #   udim[1] * 5 * (quadtile + 1),
                                    # width = 
                                    #   udim[2] * 5 * (quadtile + 1)),
                                    width = "auto"),
-              shinyBS::bsModal("printdata",
-                      "Data corresponding to selected points",
-                      "pointinfo",
-                      size = "large",
-                      shiny::dataTableOutput("dataout"))
-              ,
+          
               width = 9,
               height = "100%"
             )
@@ -337,11 +303,11 @@ interactiveProjectionBasedClustering <-
       }
       TopographicMapTopView_hlp=function(Cls,Tiled){
         #@TIM: die Parameteruebergabe Umatrix,ubmus muss du besser loesen. aus dem globalen workspace das zuu nehmen ist sehr schlecht
-        #pruef bnitte mal ob wir session brauchen, den zeilen in TopviewTopographicMap verstehe ich nicht, wenn ja bitte dokumentieren
-        # das interaktive anpassen an fenster groesse erfordert nun ein button click, weis nicht wieso
+        # das interakCtive anpassen an fenster groesse erfordert nun ein button click, weis nicht wieso
         # pruef auch das mal bitte 
+  
         V=GeneralizedUmatrix::TopviewTopographicMap(GeneralizedUmatrix = Umatrix,BestMatchingUnits = ubmus,
-                                          Cls=Cls,Tiled=Tiled,BmSize = input$markerSize,ShinyBinding=TRUE,ShinyDimension=input$dimension[1],Session=session)
+                   Cls=Cls,Tiled=Tiled,BmSize = input$markerSize,ShinyBinding=TRUE,ShinyDimension=input$dimension[1],Session=session)
      
         output$Plot=V$Rendered
         outplot<<-V$single
@@ -510,11 +476,11 @@ interactiveProjectionBasedClustering <-
                     <table>
                     <tr>
                     <th>Lines: </th>
-                    <td>", udim[1], "</td>
+                    <td>",  udim[1], "</td>
                     </tr>
                     <tr>
                     <th>Columns: </th>
-                    <td>", udim[2], "</td>
+                    <td>",  udim[2], "</td>
                     </tr>
                     <tr>
                     <th>Bestmatches: </th>
@@ -530,10 +496,10 @@ interactiveProjectionBasedClustering <-
       # Button: View Selected
       observeEvent(input$pointinfo,{
         seldat <- selectedpoints()
-        output$dataout <- renderDataTable({
-          seldat
-        })
-      })
+        output$dataout <- renderDataTable({seldat})
+        shiny::showModal(shiny::modalDialog(title ="Data corresponding to selected points", shiny::dataTableOutput("dataout"), easyClose = TRUE )
+      )})
+
       
       # Button: Merge Clusters
       observeEvent(input$Merge, {
@@ -545,8 +511,7 @@ interactiveProjectionBasedClustering <-
         Clss <- unique(Cls[points])
         ids <- which(Cls %in% Clss)
         Cls[ids] <- min(Clss)
-        Cls <- getUniquePoints(Cls)$mergeind #MT: TIm, was macht diese Zeile?
-        Cls <<- Cls
+        Cls <<- getUniquePoints(Cls)$mergeind
         TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
       })
       
@@ -559,12 +524,12 @@ interactiveProjectionBasedClustering <-
       # Button: Create new cluster
       observeEvent(input$Clust, {
         Clsids <- selectedids()
-        if (!is.na(Clsids[1])) { #MT: TIM bitte pruefen!
+        if (all(!is.na(Clsids))) { 
           id <- max(Cls) + 1
           points <- Clsids
           Cls[points] <- id
+          Cls <<- getUniquePoints(Cls)$mergeind
           TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
-          Cls <<- Cls
         }
       })
       
@@ -574,11 +539,11 @@ interactiveProjectionBasedClustering <-
         id <- input$ClsSelect
         Clsids <- selectedids()
         
-        if (!is.na(Clsids[1])){ #MT: tim macht das sinn?
+        if (all(!is.na(Clsids))){ 
           Cls[Clsids] <- id
-          Cls <- getUniquePoints(as.numeric(Cls))$mergeind #MT: Tim was macht diese Zeile=
+          Cls <- getUniquePoints(as.numeric(Cls))$mergeind
           Cls <<- Cls
-         # TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
+          TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
         }
       })
       
@@ -594,7 +559,7 @@ interactiveProjectionBasedClustering <-
         if(!is.null(Umatrix)){
           #wir direkt bei start augeprueft
           #shortcut: Umatrix muss existieren
-          Clsfull <- ProjectionBasedClustering(input$NumberClusters,
+          Clsfull <- ProjectionBasedClustering::ProjectionBasedClustering(input$NumberClusters,
                                             Data = Data,
                                             BestMatches = bestmatches,
                                             LC = LC,
@@ -611,6 +576,8 @@ interactiveProjectionBasedClustering <-
       
       # Calculate Projection and GeneralizedUmatrix and plot result.
       observeEvent(input$generate,{
+        
+        shiny::showModal(shiny::modalDialog("Please wait while the Generalized U-matrix is being calculated",style = "font-size:20px", easyClose = TRUE))
         
         type=input$projections 
         k=2
@@ -642,6 +609,9 @@ interactiveProjectionBasedClustering <-
         createParams(Umatrix, bestmatches,Cls = Cls)
         LC <<-c(newU$Lines,newU$Columns)
         TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
+        
+        shiny::removeModal()
+        
       })
       
       
@@ -679,7 +649,7 @@ getUniquePoints <- function(data,mindist = 1e-10){
   
   
   # when data is a vector, convert to matrix
-  if (class(data) == "numeric" || class(data) == "complex") {
+  if (methods::is(data,"numeric") || methods::is(data,"complex")) {
     data <- matrix(data, ncol = 1)
   } else if (class(data) == "data.frame") {
     data <- as.matrix(data)

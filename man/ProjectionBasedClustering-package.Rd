@@ -56,28 +56,32 @@ projectionpoints=NeRV(Hepta$Data)
 #Computation of Generalized Umatrix
 library(GeneralizedUmatrix)
 visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
-
-plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+#or in 3D if rgl package exists
+#plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
 }
 ##Interactive Island Generation 
 ## from a tiled Umatrix (toroidal assumption)
 \dontrun{
 	Imx = ProjectionBasedClustering::interactiveGeneralizedUmatrixIsland(visualization$Umatrix,
 	visualization$Bestmatches)
-	plotTopographicMap(visualization$Umatrix,
-
-	visualization$Bestmatches, Imx = Imx)
+	#plotTopographicMap(visualization$Umatrix,visualization$Bestmatches, Imx = Imx)
 }
 \donttest{
 # Automatic Clustering
 LC=c(visualization$Lines,visualization$Columns)
-# number of Cluster from dendrogram or visualization (PlotIt=T)
+# number of Cluster from dendrogram or visualization (PlotIt=TRUE)
 Cls=ProjectionBasedClustering(k=7, Hepta$Data, 
 
-visualization$Bestmatches, LC,PlotIt=T)
+visualization$Bestmatches, LC,PlotIt=TRUE)
 # Verification
-plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+library(GeneralizedUmatrix)
+TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+#or in 3D if rgl package exists
+#plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+}
 ## Sometimes you can improve a Clustering interactivly or mark additional Outliers manually
+\dontrun{
 Cls2 = interactiveClustering(visualization$Umatrix, visualization$Bestmatches, Cls)
 }
 }

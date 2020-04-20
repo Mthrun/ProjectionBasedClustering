@@ -35,7 +35,7 @@ Returns a List of:
 }
 }
 \author{
-Felix Pape, Tim Schreier, Luis Winckelmann, Michael Thrun
+Tim Schreier,Felix Pape, Luis Winckelmann, Michael Thrun
 }
 
 \references{

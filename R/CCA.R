@@ -56,11 +56,12 @@ CCA = function(DataOrDists,Epochs,OutputDimension=2,method='euclidean', alpha0 =
     stop('DataOrDists has to be a matrix, maybe use as.matrix()')
   
   
-  if (missing(Epochs))
-    stop('scalar value for number of eppochs is missing')
-  else
+  if (missing(Epochs)){
+    warning('scalar value for number of eppochs is missing. Setting epochs=20 which may not be prerable in order to continue the algorithm. There is no default setting for this parameter!')
+    Epochs=20
+  }else{
     epochs = Epochs
-  
+  }
   if (missing(lambda0))
     lambda0 = NULL
   

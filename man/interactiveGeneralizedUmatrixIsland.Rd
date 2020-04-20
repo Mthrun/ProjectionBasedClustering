@@ -26,8 +26,11 @@ res=cmdscale(d=InputDistances, k = 2, eig = TRUE, add = FALSE, x.ret = FALSE)
 ProjectedPoints=as.matrix(res$points)
 #see also ProjectionBasedClustering package for other common projection methods
 \donttest{
+library(GeneralizedUmatrix)
 resUmatrix=GeneralizedUmatrix(Data,ProjectedPoints)
-plotTopographicMap(resUmatrix$Umatrix,resUmatrix$Bestmatches,Cls)
+TopviewTopographicMap(resUmatrix$Umatrix,resUmatrix$Bestmatches,Cls)
+#or in 3D if rgl package exists
+#plotTopographicMap(resUmatrix$Umatrix,resUmatrix$Bestmatches,Cls)
 }
 ##Interactive Island Generation 
 ## from a tiled Umatrix (toroidal assumption)

@@ -17,7 +17,6 @@ export(interactiveProjectionBasedClustering)
 
 import(shiny)
 importFrom("plotly","plotlyOutput","event_data","renderPlotly","plot_ly","add_contour","add_markers","add_segments","layout")
-importFrom("shinyBS", "bsModal")
 importFrom("shinythemes","shinytheme")
 importFrom("stats", "quantile")
 importFrom("grDevices", "colorRamp")

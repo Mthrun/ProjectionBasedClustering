@@ -40,18 +40,23 @@ data('Hepta')
 #2d projection
 \donttest{projectionpoints=NeRV(Hepta$Data)
 #Computation of Generalized Umatrix
-visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
-# Visualizuation of GenerelizedUmatrix
 library(GeneralizedUmatrix)
-plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
+# Visualizuation of GeneralizedUmatrix
+library(GeneralizedUmatrix)
+TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches)
+#or in 3D if rgl package exists
+#plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
 # Automatic Clustering
 LC=c(visualization$Lines,visualization$Columns)
 # number of Cluster from dendrogram or visualization (PlotIt=T)
 Cls=ProjectionBasedClustering(k=7, Hepta$Data, 
 
-visualization$Bestmatches, LC,PlotIt=T)
+visualization$Bestmatches, LC,PlotIt=TRUE)
 # Verification
-plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
+#or in 3D if rgl package exists
+#plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 }
 }
 \references{

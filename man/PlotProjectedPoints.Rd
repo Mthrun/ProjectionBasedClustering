@@ -19,7 +19,7 @@ xlab='X',ylab='Y',main="Projected Points",PointSize=2.5)
   \item{Cls}{ numeric vector, given Classification in numbers: every element is the cluster number of a certain corresponding element of data.
 }
   \item{BMUorProjected}{
-		Default ==F, If TRUE assuming BestMatches of ESOM instead of Projected Points
+		Default ==FALSE, If TRUE assuming BestMatches of ESOM instead of Projected Points
 }
   \item{PlotLegend}{
   ...

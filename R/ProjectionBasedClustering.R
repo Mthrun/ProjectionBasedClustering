@@ -50,23 +50,19 @@ ProjectionBasedClustering=function(k,Data,BestMatches,LC,StructureType=TRUE,Plot
   if(StructureType){
     pDist=as.dist(Dist)
     hc <- hclust(pDist,method="ward.D")
-    m="Compact DBS clustering"
+    m="Compact Projection-based Clustering"
   }else{
     ind=which(GOutput==0,arr.ind=T)
     Dist2=Dist*GOutput
     Dist2[ind]=max(Dist)*2
     pDist=as.dist(Dist2)
     hc <- hclust(pDist,method="single")
-    m="Connected DBS clustering"
+    m="Connected Projection-based Clustering"
   }
-  if(PlotIt){
-    x=as.dendrogram(hc)
-    plot(x, main=m,xlab="No. of Data Points N", ylab="Distance",sub=" ",leaflab ="none")
-    axis(1,col="black",las=1)
-  }
-  
-  Cls=cutree(hc,k)
+    
+  Cls=cutree(hc,k) 
 
+  
   counter = 0
   bool = T
   NumberOfClassesSet = k
@@ -104,6 +100,39 @@ ProjectionBasedClustering=function(k,Data,BestMatches,LC,StructureType=TRUE,Plot
     if (!bool)
       break
     # print(counter)
+  }
+  
+  if(PlotIt){
+    x=as.dendrogram(hc)
+    if(requireNamespace('dendextend')){
+      #what is the ordering of the cluster in dendrogram
+      # from left to right
+      Cls_tmp=Cls[order.dendrogram(x)]
+      #count frequency in that ordering
+      uniqueClasses <- unique(Cls_tmp)
+      numberOfClasses <- length(uniqueClasses)
+      #countPerClass <- rep(0, numberOfClasses)
+      countPerClass=list()
+      for (i in uniqueClasses) {
+        inClassI <- sum(Cls_tmp == uniqueClasses[i])
+        countPerClass[[i]] = inClassI
+      }
+      names(countPerClass)=uniqueClasses
+      countPerClass=unlist(countPerClass)
+      #get the right number of colors
+      cols=ProjectionBasedClustering::DefaultColorSequence[1:numberOfClasses]
+     #what would be the ordering of datra based on frequency
+      data_order=order(countPerClass,decreasing = TRUE) #from highest frequency
+      #what would be the orders of the branches
+      unique_reordered=uniqueClasses[data_order]
+      # fit that order to the colors
+      cols_order = match(table = unique_reordered,uniqueClasses)
+      cols=cols[cols_order]
+      #branch colors with specific set of colors based on cluster frequency
+      x=dendextend::set(x,"branches_k_color", k = k,cols)
+    }
+    plot(x, main=m,xlab="No. of Data Points N", ylab="Ultrametric Portion of Distance",sub=" ",leaflab ="none")
+    axis(1,col="black",las=1)
   }
 
   return(Cls)
