@@ -1,11 +1,10 @@
 \name{ProjectionBasedClustering}
 \alias{ProjectionBasedClustering}
 \title{
-automated Clustering approach of the Databonic swarm with abstact U distances
+Automatic Projection-based Clustering (PBC) [Thrun/Ultsch, 2020]
 }
 \description{
-automated Clustering approach of the Databonic swarm with abstact U distances, which
-are the geodesic distances based on high-dimensional distances combined with low dimensional graph paths by using \code{ShortestGraphPathsC}.
+Three steps are necessary for PBC. First, a projection method has to be chosen to generate projected points of high-dimensional data points. Second, the generalized U*-matrix has to be applied to the projected points by using a simplified emergent self-organizing map (ESOM) algorithm which is an unsupervised neural network [Thrun, 2018]. The resulting generalized U-matrix can be visualized by the topographic map [Thrun et al., 2016]. Third, the clustering itself is built on top of the generalized U-matrix using the concept of the abstract U-Matrix and shortest graph paths using \code{ShortestGraphPathsC}. 
 }
 \usage{
 ProjectionBasedClustering(k, Data, BestMatches, LC, StructureType = TRUE, PlotIt = FALSE,
@@ -23,23 +22,19 @@ ProjectionBasedClustering(k, Data, BestMatches, LC, StructureType = TRUE, PlotIt
 }
 \details{
 ProjectionBasedClustering is a flexible and robust clustering framework based on a chose projection method and
- projection method a parameter-free high-dimensional data visualization technique,
- which generates projected points on a topographic map with hypsometric colors, see package GeneralizedUmatrix function GeneralizedUmatrix, 
- called the generalized U-matrix. The clustering method with no 
- sensitive parameters is done by this function. The clustering can be verified by the visualization and vice versa. 
+ projection method a parameter-free high-dimensional data visualization technique. The visualization combines projected points with a topographic map with hypsometric colors, defined by the generalized U-matrix  (see package GeneralizedUmatrix function GeneralizedUmatrix). 
  
- If you want to verifiy your clustering result externally, you can use \code{Heatmap} or \code{SilhouettePlot} of the CRAN package \code{DataVisualizations}.
-
- Additionally you can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
+ The clustering method with no sensitive parameters is done in this function and the algorithm is introduced in detail in [Thrun/Ultsch, 2020]. The clustering can be verified by the visualization and vice versa. If you want to verifiy your clustering result externally, you can use \code{Heatmap} or \code{SilhouettePlot} of the CRAN package \code{DataVisualizations}.
 }
 \value{
 Cls                 [1:n] vector with selected classes of the bestmatches. You can use \code{plotTopographicMap(Umatrix,Bestmatches,Cls)} for verification.
 }
 \examples{
 data('Hepta')
-#2d projection
+#Step I: 2d projection
 \donttest{projectionpoints=NeRV(Hepta$Data)
-#Computation of Generalized Umatrix
+
+#Step II: Computation of Generalized Umatrix
 library(GeneralizedUmatrix)
 visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
 # Visualizuation of GeneralizedUmatrix
@@ -47,28 +42,34 @@ library(GeneralizedUmatrix)
 TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches)
 #or in 3D if rgl package exists
 #plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
-# Automatic Clustering
+
+# Step III: Automatic Clustering
 LC=c(visualization$Lines,visualization$Columns)
 # number of Cluster from dendrogram or visualization (PlotIt=T)
 Cls=ProjectionBasedClustering(k=7, Hepta$Data, 
 
 visualization$Bestmatches, LC,PlotIt=TRUE)
-# Verification
+
+# Verification of Clustering
 TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 #or in 3D if rgl package exists
 #plotTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 }
 }
 \references{
+[Thrun et al., 2016]  Thrun, M. C., Lerch, F., Lötsch, J., & Ultsch, A.: Visualization and 3D Printing of Multivariate Data of Biomarkers, in Skala, V. (Ed.), International Conference in Central Europe on Computer Graphics, Visualization and Computer Vision (WSCG), Vol. 24, Plzen, http://wscg.zcu.cz/wscg2016/short/A43-full.pdf, 2016.
+
 [Thrun/Ultsch, 2017] Thrun, M.C., Ultsch, A.: Projection based Clustering, Conf. Int. Federation of Classification Societies (IFCS),DOI:10.13140/RG.2.2.13124.53124, Tokyo, 2017.
 
 [Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, doctoral dissertation 2017, Springer, Heidelberg, ISBN: 978-3-658-20539-3, \url{https://doi.org/10.1007/978-3-658-20540-9}, 2018. 
+
+[Thrun/Ultsch, 2020]  Thrun, M. C., & Ultsch, A.: Using Projection based Clustering to Find Distance and Density based Clusters in High-Dimensional Data, Journal of Classification, Vol. in press, Springer, DOI: 10.1007/s00357-020-09373-2, 2020. 
 }
 \author{
 Michael Thrun
 }
 \note{
-If you used pswarm with distance matrix instead of a data matrix you can mds transform your distances into data. The correct dimension can be found through the Sheppard diagram or kruskals stress.
+If you used pswarm with distance matrix instead of a data matrix you can mds transform your distances into data. The correct dimension can be found through the Sheppard diagram or kruskals stress. Additionally you can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
 
 Often it is better to mark the outliers  manually after the prozess of clustering; use in this case the visualization \code{plotTopographicMap} of the package GeneralizedUmatrix. If you would like to mark the outliers interactivly in the visualization use 
 the \code{interactiveClustering} function.

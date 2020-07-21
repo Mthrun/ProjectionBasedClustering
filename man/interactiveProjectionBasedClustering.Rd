@@ -1,12 +1,10 @@
 \name{interactiveProjectionBasedClustering}
 \alias{interactiveProjectionBasedClustering}
 \title{
-Interactive Projection-Based Clustering  of [Thrun et al., 2020] based on [Thrun/Ultsch, 2017].
+Interactive Projection-Based Clustering  of [Thrun et al., 2020]
 }
 \description{
-  An interactive clustering tool using the topographic map visualizations of the generalized U-matrix and a variety of different projection methods.
-  This function receives a dataset and starts a shiny interface where one is able to choose a projection method and generate a plot.ly visualization of the topograhpic mao [Thrun et al., 2016] of the generalized U-matrix [Ultsch/Thrun, 2017] and the projected points. 
-  It includes capabilities for interactive clustering within the interface.
+  An interactive clustering tool using the topographic map visualizations of the generalized U-matrix and a variety of different projection methods. This function receives a dataset and starts a shiny interface where one is able to choose a projection method and generate a plot.ly visualization of the topograhpic map [Thrun et al., 2016] of the generalized U-matrix [Ultsch/Thrun, 2017] combined with projected points. It includes capabilities for interactive clustering within the interface and automatic projection-based clustering based on [Thrun/Ultsch, 2020].
 }
 \usage{
   interactiveProjectionBasedClustering(Data, Cls=NULL )
@@ -45,6 +43,16 @@ Tim Schreier,Felix Pape, Luis Winckelmann, Michael Thrun
 
 [Thrun/Ultsch, 2017]   Thrun, M. C., & Ultsch, A. : Projection based Clustering, Proc. International Federation of Classification Societies (IFCS), pp. 250-251, Japanese Classification Society (JCS), Tokyo, Japan, 2017. 
 
+[Thrun/Ultsch, 2020]  Thrun, M. C., & Ultsch, A.: Using Projection based Clustering to Find Distance and Density based Clusters in High-Dimensional Data, Journal of Classification, Vol. in press, Springer, DOI: 10.1007/s00357-020-09373-2, 2020. 
+
 [Thrun et al., 2020] Thrun, M. C., Pape, F., & Alfred, U.: An Interactive Machine Learning Tool For Clustering in Visual Analytics, technical report beeing submitted, 2020.
 
+}
+
+\examples{
+data('Hepta')
+Data=Hepta$Data
+\dontrun{
+V=interactiveProjectionBasedClustering(Data)
+}
 }

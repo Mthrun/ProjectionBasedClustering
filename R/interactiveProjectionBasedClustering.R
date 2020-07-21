@@ -305,138 +305,24 @@ interactiveProjectionBasedClustering <-
         #@TIM: die Parameteruebergabe Umatrix,ubmus muss du besser loesen. aus dem globalen workspace das zuu nehmen ist sehr schlecht
         # das interakCtive anpassen an fenster groesse erfordert nun ein button click, weis nicht wieso
         # pruef auch das mal bitte 
-  
-        V=GeneralizedUmatrix::TopviewTopographicMap(GeneralizedUmatrix = Umatrix,BestMatchingUnits = ubmus,
-                   Cls=Cls,Tiled=Tiled,BmSize = input$markerSize,ShinyBinding=TRUE,ShinyDimension=input$dimension[1],Session=session)
      
-        output$Plot=V$Rendered
-        outplot<<-V$single
+        plt=GeneralizedUmatrix::TopviewTopographicMap(GeneralizedUmatrix = Umatrix,BestMatchingUnits = ubmus,
+                   Cls=Cls,Tiled=Tiled,BmSize = input$markerSize,ShinyBinding=TRUE,ShinyDimension=input$dimension[1],Session=session)
+        
+        shiny::updateSelectInput(session,
+                                 "ClsSelect",
+                                 label = "Select Class",
+                                 choices = unique(Cls))
+        
+        requireNamespace("plotly")
+        Rendered <- plotly::renderPlotly({
+          plt
+        })
+        output$Plot=Rendered
+        outplot<<-plt
+       
       }
-      # TopographicMapTopView_hlp <- function(Cls,Toroid=FALSE) {
-      #   
-      #   #Handle Color:
-      #   addclass <- function(class, plotbmus,plot,bmu_cols,markerSize) {
-      #     inds <- which(plotCls == class)
-      #     plot <- plotly::add_markers(plot,
-      #                                 x = plotbmus[inds, 2],
-      #                                 y = plotbmus[inds, 1],
-      #                                 marker = list(
-      #                                   size = markerSize,
-      #                                   color = bmu_cols[class],
-      #                                   line = list(color = "rgba(80, 80, 80, .8)",
-      #                                               width = 1)
-      #                                 ),
-      #                                 name = paste("Cluster", class)
-      #     )
-      #     return(plot)
-      #   }
-      #   
-      #   quants2 = quantile(as.vector(Umatrix), c(0.01, 0.5, 0.99))
-      #   minU2 = quants2[1]
-      #   maxU2 = quants2[3]
-      #   HeightScale = round(maxU2/(2 * max(minU2, 0.05)), 0)
-      #   stretchFactor = sqrt(nrow(Umatrix)^2 + ncol(Umatrix)^2)/sqrt(50^2 + 80^2)
-      #   Nrlevels2 = 2 * HeightScale * stretchFactor
-      #   # levelBreaks <- seq(0, 1.000001, length.out = (Nrlevels2 + 1))
-      #   # splittedGeneralizedUmatrix = Umatrix
-      #   # for (i in 1:Nrlevels2) {
-      #   #   splittedGeneralizedUmatrix[(Umatrix >= levelBreaks[i]) &
-      #   #                                (Umatrix <= levelBreaks[i + 1])] = levelBreaks[i]
-      #   # }
-      #   # splittedGeneralizedUmatrix = (floor(splittedGeneralizedUmatrix *
-      #   #                                       length(colormap))) + 1
-      #   # color = colormap[splittedGeneralizedUmatrix]
-      #   # color = rep(color,4)
-      #   # test <- matrix(color,ncol = udim[2], nrow = udim[1])
-      #   # test <- cbind(rbind(test,test),rbind(test,test))
-      #   
-      #   
-      #   # dmx  <- cbind(z,z)
-      #   
-      #   
-      #   # Umatrix <- Umatrix * HeightScale * stretchFactor
-      #   if(isTRUE(Toroid)){
-      #   qdim <- udim * 2
-      #   dmx  <- cbind(Umatrix,Umatrix)
-      #   qmx  <- rbind(dmx, dmx)
-      #   dbm  <- rbind(ubmus, cbind(ubmus[, 1], ubmus[, 2] + udim[2]))
-      #   qbm  <- rbind(dbm, cbind(dbm[, 1] + udim[1], dbm[, 2]))
-      #   plotumx <- qmx
-      #   plotbmus <- qbm
-      #   plotCls <- rep(Cls, 4)
-      #   }else{
-      #     plotumx <- Umatrix
-      #     plotbmus <- ubmus
-      #     plotCls <- Cls
-      #     qdim <- udim 
-      #   }
-      #   #   qmx = matrixnormalization(qmx)
-      #   
-      #   bmu_cols=ProjectionBasedClustering::DefaultColorSequence
-      #   bmu_cols=bmu_cols[-5] #green is not visible in plotly
-      #   plotdim <- qdim
-      #  
-      #   
-      #   
-      #   output$Plot <- plotly::renderPlotly({
-      #     
-      #     width = (0.95*as.numeric(input$dimension[1]))
-      #     height = udim[1]/udim[2] * (width-80)
-      #     
-      #     plt <- plotly::plot_ly(width = width, height = height*0.75)
-      #     plt <- plotly::add_contour(plt,
-      #         x = 1:plotdim[1],
-      #         y = 1:plotdim[2],
-      #         z = plotumx,
-      #         showscale=FALSE,
-      #         line = list(
-      #           color = 'black',
-      #           width = 0.5),
-      #         contours = list(
-      #           start = 0,
-      #           end = 1,
-      #           size = 1/15
-      #         ),
-      #         # colors = color,
-      #         colors = colorRamp(colormap[c(rep(3,6),seq(from = 4,to = length(colormap)-30,length.out = ceiling(Nrlevels2 +1)-7),length(colormap))]),
-      #         name = "UMatrix"
-      #         # , showscale = FALSE
-      #       )
-      #     
-      #     # plt <- plotly::plot_ly(width = 2*width, height = 2*height,type = "contour",
-      #     #                         x = 1:plotdim[1],
-      #     #                         y = 1:plotdim[2],
-      #     #                         z = ~plotumx,
-      #     #                         autocontour = TRUE,
-      #     #                         line = list(smoothing = 0.85))
-      #     
-      # 
-      #     for (class in unique(plotCls)){
-      #       plt <- addclass(class,plotbmus, plt,bmu_cols,input$markerSize)
-      #     }
-      #     
-      #     
-      #     plt <- plotly::layout(#title <- "Drop plot title here",
-      #       #bgcolor = "rgb(244, 244, 248)",
-      #       plt,
-      #       xaxis = ax,
-      #       yaxis = ay,
-      #       dragmode ='lasso',
-      #       legend=list(orientation='h')
-      #       #, showlegend = FALSE
-      #     )
-      #     updateSelectInput(
-      #       session,
-      #       "ClsSelect",
-      #       label = "Select Class",
-      #       choices = unique(Cls)
-      #     )
-      #     outplot <<- plt
-      #     plt
-      #   }
-      #   )
-      # }#end TopographicMapTopView_hlp
-      
+     
       selectedpoints <- function() {
         
         d <- plotly::event_data("plotly_selected")
@@ -651,9 +537,9 @@ getUniquePoints <- function(data,mindist = 1e-10){
   # when data is a vector, convert to matrix
   if (methods::is(data,"numeric") || methods::is(data,"complex")) {
     data <- matrix(data, ncol = 1)
-  } else if (class(data) == "data.frame") {
+  } else if (is.data.frame(data)) {
     data <- as.matrix(data)
-  } else if (class(data) != "matrix") {
+  } else if (!is.matrix(data)) {
     stop("getUniquePoints input is neither a (numeric or complex) vector, matrix or data.frame.")
   }
   
