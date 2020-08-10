@@ -7,7 +7,7 @@ CCA(DataOrDists,Epochs,OutputDimension=2,method='euclidean',
 alpha0 = 0.5, lambda0,PlotIt=FALSE,Cls)
 }
 \arguments{
-\item{DataOrDists}{array of data: n cases in rows, d variables in columns, matrix is not symmetric or distance matrix, in this case matrix has to be symmetric epochs                  (scalar) training length}
+        \item{DataOrDists}{array of data: n cases in rows, d variables in columns, matrix is not symmetric; or distance matrix, which must be symmetric}
   
 	\item{Epochs}{(scalar) training length}
 	\item{OutputDimension}{Number of dimensions in the Outputspace, default=2}
