@@ -1,8 +1,8 @@
-MDS = function(DataOrDists,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls){
+MDS = function(DataOrDistances,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls){
   # Classical multidimensional scaling of a data matrix. Also known as principal coordinates analysis
   # projection=MDS(Data) 
   # INPUT 
-  # DataOrDists[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
+  # DataOrDistances[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
   #                           or distance matrix, in this case matrix has to be symmetric
   # OPTIONAL
   # method                    method specified by distance string: 
@@ -20,21 +20,21 @@ MDS = function(DataOrDists,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls
   # Eigenvalues[1:p]                                the eigenvalues of MDSvalues*MDSvalues'
   # Stress                                          Shephard-Kruskal Stress  
   # author: MT 06/2015
-  if(missing(DataOrDists))
-		stop('No DataOrDists given')
-	DataOrDists;
-	if(!is.matrix(DataOrDists))
-		stop('DataOrDists has to be a matrix, maybe use as.matrix()')
+  if(missing(DataOrDistances))
+		stop('No DataOrDistances given')
+	DataOrDistances;
+	if(!is.matrix(DataOrDistances))
+		stop('DataOrDistances has to be a matrix, maybe use as.matrix()')
 		
-  if(isSymmetric(unname(DataOrDists))){
-    DataDists=DataOrDists
-    AnzVar=ncol(DataOrDists)
-    AnzData=nrow(DataOrDists)
+  if(isSymmetric(unname(DataOrDistances))){
+    DataDists=DataOrDistances
+    AnzVar=ncol(DataOrDistances)
+    AnzData=nrow(DataOrDistances)
   }else{ #!isSymmetric
-    AnzVar=ncol(DataOrDists)
-    AnzData=nrow(DataOrDists)
-    DataDists=as.matrix(dist(x=DataOrDists,method = method))
-  }# end if(isSymmetric(DataOrDists))
+    AnzVar=ncol(DataOrDistances)
+    AnzData=nrow(DataOrDistances)
+    DataDists=as.matrix(dist(x=DataOrDistances,method = method))
+  }# end if(isSymmetric(DataOrDistances))
   
   res=cmdscale(d=DataDists, k = OutputDimension, eig = TRUE, add = FALSE, x.ret = FALSE)
   ProjectedPoints=as.matrix(res$points)

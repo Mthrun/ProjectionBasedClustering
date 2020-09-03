@@ -1,9 +1,9 @@
-Isomap  = function(Inputdistances,k,OutputDimension=2,PlotIt=FALSE,Cls){
+Isomap  = function(Distances,k,OutputDimension=2,PlotIt=FALSE,Cls){
   # Isomap procetion as introduced in 2000 by Tenenbaum, de Silva and Langford
   # projection=Isomap(Data,k=10)
 
   # INPUT 
-  # Inputdistances[1:d,1:d]      DistanceMatrix
+  # Distances[1:d,1:d]      DistanceMatrix
   # OPTIONAL
 
   # OutputDimension           data is projected onto a R^p where P is the maximum ( default ==2)
@@ -19,15 +19,15 @@ Isomap  = function(Inputdistances,k,OutputDimension=2,PlotIt=FALSE,Cls){
   #Note if Data fragmented choose an higher k
   
   # author: MT 06/2015
-	if(missing(Inputdistances))
+	if(missing(Distances))
 		stop('No Distances given')
-  Inputdistances;
-	if(!is.matrix(Inputdistances))
-		stop('Inputdistances has to be a matrix, maybe use as.matrix()')
+  Distances;
+	if(!is.matrix(Distances))
+		stop('Distances has to be a matrix, maybe use as.matrix()')
 		
   if(missing(k)) stop('k nearest neighbor value missing')
     requireNamespace('vegan')
-    res=vegan::isomap(Inputdistances,ndim = 2,k=40,fragmentedOK=T, path = "shortest")
+    res=vegan::isomap(Distances,ndim = 2,k=40,fragmentedOK=T, path = "shortest")
   # requireRpackage("RDRToolbox",biocite=T)
   # 
   # 
@@ -35,7 +35,7 @@ Isomap  = function(Inputdistances,k,OutputDimension=2,PlotIt=FALSE,Cls){
     ProjectedPoints=res$points
 if(PlotIt){
   if(missing(Cls)){
-		AnzData=nrow(Inputdistances)
+		AnzData=nrow(Distances)
 		Cls=rep(1,AnzData)
 	}  
   

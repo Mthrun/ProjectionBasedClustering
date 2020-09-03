@@ -1,11 +1,11 @@
 \name{Isomap}
 \alias{Isomap}
-\title{ Isomap projection method}
+\title{Isomap}
 \usage{
-Isomap(Inputdistances,k,OutputDimension=2,PlotIt=FALSE,Cls)
+Isomap(Distances,k,OutputDimension=2,PlotIt=FALSE,Cls)
 }
 \arguments{
-\item{Inputdistances}{Matrix containing the distances of the data}
+\item{Distances}{Symmetric [1:n,1:n] distance matrix, e.g. \code{as.matrix(dist(Data,method))}}
 \item{k}{number of k nearest neighbors, if the data is fragmented choose an higher k}
  
 \item{OutputDimension}{Number of dimensions in the output space, default = 2}
@@ -24,7 +24,7 @@ Even with a manifold structure, the sampling must be even and dense so that diss
 
 }
 \note{
-A wrapper for isomap of the package vegan
+A wrapper enabling a planar projection of the manifold learning method based on the isomap of the package vegan
 
 if Data fragmented choose an higher k
 
@@ -35,4 +35,15 @@ if Data fragmented choose an higher k
  An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
  }
 \keyword{Isomap}
-\keyword{isomap}
+
+\concept{Manifold Learning}
+\examples{
+data('Hepta')
+Data=Hepta$Data
+
+Proj=Isomap(as.matrix(dist(Data)),k=7)
+
+\dontrun{
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
+}
+}

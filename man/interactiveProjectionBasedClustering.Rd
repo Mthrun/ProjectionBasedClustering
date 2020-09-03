@@ -45,7 +45,7 @@ Tim Schreier,Felix Pape, Luis Winckelmann, Michael Thrun
 
 [Thrun/Ultsch, 2020]  Thrun, M. C., & Ultsch, A.: Using Projection based Clustering to Find Distance and Density based Clusters in High-Dimensional Data, Journal of Classification, Vol. in press, Springer, DOI: 10.1007/s00357-020-09373-2, 2020. 
 
-[Thrun et al., 2020] Thrun, M. C., Pape, F., & Alfred, U.: An Interactive Machine Learning Tool For Clustering in Visual Analytics, technical report beeing submitted, 2020.
+[Thrun et al., 2020]  Thrun, M. C., Pape, F., & Ultsch, A.: Interactive Machine Learning Tool for Clustering in Visual Analytics, 7th IEEE International Conference on Data Science and Advanced Analytics (DSAA 2020), Vol. accepted, pp. 1-9, IEEE, Sydney, Australia, 2020.
 
 }
 

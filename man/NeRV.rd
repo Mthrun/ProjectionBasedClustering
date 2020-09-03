@@ -1,7 +1,7 @@
 \name{NeRV}
 \alias{NeRV}
 \title{
-NeRV projection
+Neighbor Retrieval Visualizer (NeRV) 
 }
 \description{
 Projection is done by the neighbor
@@ -15,7 +15,7 @@ cg_steps = 2, cg_steps_final = 40, randominit = T, OutputDimension = 2,
 PlotIt = FALSE, Cls)
 }
 \arguments{
-  \item{Data}{Matrix of the Data to be projected}
+  \item{Data}{Numerical matrix of the Data to be projected, [1:n,1:d], nonsymmetric, and consists of n cases of d-dimensional data points with every case having d attributes, variables or features}
   \item{lambda}{Optional: Controls the trustworthiness-continuity tradeoff. Default = 0.1}
   \item{neighbors}{Optional: Set the number of nearest neighbours that each point should have. Should be positive. Default = 20}
   \item{iterations}{Optional: The number of iterations to perform. Default = 10}
@@ -51,3 +51,20 @@ Jarkko Venna and Samuel Kaski. Nonlinear Dimensionality Reduction as Information
 \author{
 Michael Thrun, Felix Pape
 }
+
+\examples{
+data('Hepta')
+Data=Hepta$Data
+\dontrun{
+Proj=NeRV(Data)
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
+}
+
+\dontshow{
+NeRV(Data[1:10,])
+}
+}
+
+\keyword{NeRV}
+
+\concept{neighbor retrieval visualizer}

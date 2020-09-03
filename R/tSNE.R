@@ -1,10 +1,10 @@
-tSNE = function(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',method='euclidean',Whitening=FALSE, Iterations=1000,PlotIt=FALSE,Cls,...){
+tSNE = function(DataOrDistances,k,OutputDimension=2,Algorithm='tsne_cpp',method='euclidean',Whitening=FALSE, Iterations=1000,PlotIt=FALSE,Cls,...){
 #  T-distributed Stochastic Neighbor Embedding
 #  
 #  res = tSNE(Data, k=30,OutputDimension=2)
 #   
 # INPUT
-# DataOrDists[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
+# DataOrDistances[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
 #                           or distance matrix, in this case matrix has to be symmetric
 # k                         number of k nearest neighbors=number of effective nearest neighbors("perplexity")
 #                           Important parameter, if not given Settings of package t-SNE will be used
@@ -28,28 +28,28 @@ tSNE = function(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',method='euc
 # Note: Details in http://lvdmaaten.github.io/tsne/
 # like "Typical values for the perplexity range between 5 and 50."
 # author: MT 06/2015 
-  	if(missing(DataOrDists))
-		stop('No DataOrDists given')
-	DataOrDists;
-	if(!is.matrix(DataOrDists))
-		stop('DataOrDists has to be a matrix, maybe use as.matrix()')
+  	if(missing(DataOrDistances))
+		stop('No DataOrDistances given')
+	DataOrDistances;
+	if(!is.matrix(DataOrDistances))
+		stop('DataOrDistances has to be a matrix, maybe use as.matrix()')
 
   #if(missing(k)){
   #  warning('k - optimal number of neighbors value missing, setting k=30, see default value for perplexity in package tsne') 
   #  k=30
   #} 
 	is_distance=FALSE
-  if(isSymmetric(unname(DataOrDists))){
-    DataDists=DataOrDists
-    AnzVar=ncol(DataOrDists)
-    AnzData=nrow(DataOrDists)
+  if(isSymmetric(unname(DataOrDistances))){
+    DataDists=DataOrDistances
+    AnzVar=ncol(DataOrDistances)
+    AnzData=nrow(DataOrDistances)
     is_distance=TRUE
   }else{ #!isSymmetric
-    AnzVar=ncol(DataOrDists)
-    AnzData=nrow(DataOrDists)
-    #DataDists=DistanceMatrix(X=DataOrDists,method = method)
-    DataDists = as.matrix(dist( x = DataOrDists, method = method))
-  }# end if(isSymmetric(DataOrDists))
+    AnzVar=ncol(DataOrDistances)
+    AnzData=nrow(DataOrDistances)
+    #DataDists=DistanceMatrix(X=DataOrDistances,method = method)
+    DataDists = as.matrix(dist( x = DataOrDistances, method = method))
+  }# end if(isSymmetric(DataOrDistances))
 	
   switch(Algorithm,
          tsne_cpp={
@@ -61,9 +61,9 @@ tSNE = function(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',method='euc
              }
            }else{
              if(!missing(k)){
-               ModelObject=Rtsne::Rtsne(X = DataOrDists,dims=OutputDimension,is_distance=is_distance,perplexity = k, max_iter = Iterations,pca=Whitening,...)
+               ModelObject=Rtsne::Rtsne(X = DataOrDistances,dims=OutputDimension,is_distance=is_distance,perplexity = k, max_iter = Iterations,pca=Whitening,...)
              }else{
-               ModelObject=Rtsne::Rtsne(X = DataOrDists,dims=OutputDimension,is_distance=is_distance, max_iter = Iterations,pca=Whitening,...)
+               ModelObject=Rtsne::Rtsne(X = DataOrDistances,dims=OutputDimension,is_distance=is_distance, max_iter = Iterations,pca=Whitening,...)
              }
             
            }
@@ -85,7 +85,7 @@ tSNE = function(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',method='euc
 
   if(PlotIt){
       if(missing(Cls)){
-		AnzData=nrow(DataOrDists)
+		AnzData=nrow(DataOrDistances)
 		Cls=rep(1,AnzData)
 	}  
     if(!missing(k)){

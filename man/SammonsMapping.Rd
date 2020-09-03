@@ -2,10 +2,18 @@
 \alias{SammonsMapping}
 \title{Sammons Mapping}
 \usage{
-SammonsMapping(DataOrDists,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls)
+SammonsMapping(DataOrDistances,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls)
 }
 \arguments{
-\item{DataOrDists}{array of data: n cases in rows, d variables in columns, matrix is not symmetric or distance matrix, in this case matrix has to be symmetric}
+\item{DataOrDistances}{
+Numerical matrix defined as either 
+
+\code{Data}, i.e., [1:n,1:d], nonsymmetric, and consists of n cases of d-dimensional data points with every case having d attributes, variables or features,
+
+or
+
+\code{Distances}, i.e.,[1:n,1:n], symmetric and consists of n cases, e.g., \code{as.matrix(dist(Data,method))}
+}
 \item{method}{method specified by distance string: 'euclidean','cityblock=manhatten','cosine','chebychev','jaccard','minkowski','manhattan','binary'}
   \item{OutputDimension}{Number of dimensions in the Outputspace, default=2}
 	
@@ -34,3 +42,17 @@ A wrapper for \code{\link[MASS]{sammon}}
  \details{
  An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
  }
+ 
+   \examples{
+data('Hepta')
+Data=Hepta$Data
+
+Proj=SammonsMapping(Data)
+
+\dontrun{
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
+}
+}
+\keyword{SammonsMapping}
+
+\concept{Sammons Mapping}

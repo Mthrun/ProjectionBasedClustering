@@ -1,8 +1,8 @@
-SammonsMapping = function(DataOrDists,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls){
+SammonsMapping = function(DataOrDistances,method='euclidean',OutputDimension=2,PlotIt=FALSE,Cls){
   # verbesserte MDS durch Normieren durch die Dimension des Eingaberaums
   # projection=SammonsMapping(Data)
   # INPUT
-  # DataOrDists[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
+  # DataOrDistances[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
   #                           or distance matrix, in this case matrix has to be symmetric
   # OPTIONAL
   # method                    method specified by distance string:
@@ -22,24 +22,24 @@ SammonsMapping = function(DataOrDists,method='euclidean',OutputDimension=2,PlotI
   #requireRpackage('MASS')
   requireNamespace('MASS')
   #requireRpackage('fastICA')
-  if (missing(DataOrDists))
-    stop('No DataOrDists given')
-  DataOrDists
+  if (missing(DataOrDistances))
+    stop('No DataOrDistances given')
+  DataOrDistances
   
-  if (!is.matrix(DataOrDists))
-    stop('DataOrDists has to be a matrix, maybe use as.matrix()')
+  if (!is.matrix(DataOrDistances))
+    stop('DataOrDistances has to be a matrix, maybe use as.matrix()')
   
   
-  if (isSymmetric(DataOrDists)) {
-    DataDists = DataOrDists
-    AnzVar = ncol(DataOrDists)
-    AnzData = nrow(DataOrDists)
+  if (isSymmetric(DataOrDistances)) {
+    DataDists = DataOrDistances
+    AnzVar = ncol(DataOrDistances)
+    AnzData = nrow(DataOrDistances)
   } else{
     #!isSymmetric
-    AnzVar = ncol(DataOrDists)
-    AnzData = nrow(DataOrDists)
-    DataDists = as.matrix(dist(x = DataOrDists, method = method))
-  }# end if(isSymmetric(DataOrDists))
+    AnzVar = ncol(DataOrDistances)
+    AnzData = nrow(DataOrDistances)
+    DataDists = as.matrix(dist(x = DataOrDistances, method = method))
+  }# end if(isSymmetric(DataOrDistances))
   
   res = MASS::sammon(
     d = DataDists,

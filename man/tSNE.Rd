@@ -1,13 +1,21 @@
 \name{tSNE}
 \alias{tSNE}
-\title{  T-distributed Stochastic Neighbor Embedding}
+\title{T-distributed Stochastic Neighbor Embedding (t-SNE)}
 \usage{
-tSNE(DataOrDists,k,OutputDimension=2,Algorithm='tsne_cpp',
+tSNE(DataOrDistances,k,OutputDimension=2,Algorithm='tsne_cpp',
 
 method="euclidean",Whitening=FALSE, Iterations=1000,PlotIt=FALSE,Cls,\dots)
 }
 \arguments{
-\item{DataOrDists}{array of data: n cases in rows, d variables in columns, matrix is not symmetric or distance matrix, in this case matrix has to be symmetric}
+\item{DataOrDistances}{
+Numerical matrix defined as either 
+
+\code{Data}, i.e., [1:n,1:d], nonsymmetric, and consists of n cases of d-dimensional data points with every case having d attributes, variables or features,
+
+or
+
+\code{Distances}, i.e.,[1:n,1:n], symmetric and consists of n cases, e.g., \code{as.matrix(dist(Data,method))}
+}
 \item{k}{number of k nearest neighbors=number of effective nearest neighbors("perplexity") Important parameter, if not given Settings of package t-SNE will be used}
   \item{OutputDimension}{Number of dimensions in the Outputspace, default=2}
 	\item{Algorithm}{
@@ -52,9 +60,18 @@ or  for \code{\link[tsne]{tsne}}
  \details{
  An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
  }
- \examples{
- data('Hepta')
- projection=tSNE(Hepta$Data,PlotIt=TRUE,Cls=Hepta$Cls)
- }
+\examples{
+data('Hepta')
+Data=Hepta$Data
+
+Proj=tSNE(Data,k=7)
+
+\dontrun{
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
+}
+}
  \author{Michael Thrun}
 
+\keyword{tSNE}
+\concept{t-SNE}
+\concept{T-distributed Stochastic Neighbor Embedding}

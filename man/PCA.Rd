@@ -1,11 +1,11 @@
 \name{PCA}
 \alias{PCA}
-\title{Principal component analysis}
+\title{Principal Component Analysis (PCA)}
 \usage{
 PCA(Data,OutputDimension=2,Scale=FALSE,Center=FALSE,PlotIt=FALSE,Cls)
 }
 \arguments{
-\item{Data}{array of data: n cases in rows, d variables in columns}
+\item{Data}{numerical matrix of data: n cases in rows, d variables in columns}
 \item{OutputDimension}{Number of dimensions in the Outputspace, default=2}
   \item{Scale}{
 	  a logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place. The default is FALSE for consistency with S, but in general scaling is advisable. Alternatively, a vector of length equal the number of columns of x can be supplied. The value is passed to scale.}
@@ -55,3 +55,18 @@ A wrapper for \code{\link[stats]{prcomp}}
  \details{
  An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
  }
+ 
+  \examples{
+data('Hepta')
+Data=Hepta$Data
+
+Proj=PCA(Data)
+
+\dontrun{
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
+}
+}
+
+\keyword{PCA}
+
+\concept{Principal component analysis}

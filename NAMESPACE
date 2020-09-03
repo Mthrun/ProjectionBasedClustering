@@ -42,3 +42,4 @@ import(GeneralizedUmatrix)
 
 importFrom("graphics", "axis")
 importFrom("stats", "as.dendrogram", "as.dist", "cutree", "hclust")
+ importFrom("stats", "order.dendrogram")

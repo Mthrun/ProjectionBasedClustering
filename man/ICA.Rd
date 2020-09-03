@@ -1,13 +1,13 @@
 \name{ICA}
 \alias{ICA}
-\title{ Independent Component Analysis)}
+\title{ Independent Component Analysis (ICA)}
 \usage{
 ICA(Data,OutputDimension=2,Contrastfunction="logcosh",
 
 Alpha=1,Iterations=200,PlotIt=FALSE,Cls)
 }
 \arguments{
-\item{Data}{array of data: n cases in rows, d variables in columns, matrix is not symmetric or distance matrix, in this case matrix has to be symmetric}
+\item{Data}{numerical matrix of n cases in rows, d variables in columns, matrix is not symmetric.}
   \item{OutputDimension}{Number of dimensions in the Outputspace, default=2}
 	
 	\item{Contrastfunction}{
@@ -57,3 +57,19 @@ A wrapper for \code{\link[fastICA]{fastICA}}
  \details{
  An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
  }
+ 
+ \examples{
+data('Hepta')
+Data=Hepta$Data
+
+Proj=ICA(Data)
+
+\dontrun{
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
+}
+}
+
+
+\keyword{ICA}
+
+\concept{Independent Component Analysis}

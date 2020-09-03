@@ -1,10 +1,10 @@
-CCA = function(DataOrDists,Epochs,OutputDimension=2,method='euclidean', alpha0 = 0.5, lambda0,PlotIt=FALSE,Cls){
+CCA = function(DataOrDistances,Epochs,OutputDimension=2,method='euclidean', alpha0 = 0.5, lambda0,PlotIt=FALSE,Cls){
   #  CCA Projects data vectors using Curvilinear Component Analysis.
   #  
   #  res = CCA(V$Data, Epochs=50,OutputDimension=2,PlotIt = T)
   #   
   # INPUT
-  # DataOrDists[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
+  # DataOrDistances[1:n,1:d]      array of data: n cases in rows, d variables in columns, matrix is not symmetric
   #                           or distance matrix, in this case matrix has to be symmetric
   #  epochs                  (scalar) training length
   #
@@ -48,12 +48,12 @@ CCA = function(DataOrDists,Epochs,OutputDimension=2,method='euclidean', alpha0 =
   #  %%%%%%%%%%%%%%%%%%%%%%%%%
   #  %% subfunctions
   #
-  if (missing(DataOrDists))
-    stop('No DataOrDists given')
-  DataOrDists
+  if (missing(DataOrDistances))
+    stop('No DataOrDistances given')
+  DataOrDistances
   
-  if (!is.matrix(DataOrDists))
-    stop('DataOrDists has to be a matrix, maybe use as.matrix()')
+  if (!is.matrix(DataOrDistances))
+    stop('DataOrDistances has to be a matrix, maybe use as.matrix()')
   
   
   if (missing(Epochs)){
@@ -65,17 +65,17 @@ CCA = function(DataOrDists,Epochs,OutputDimension=2,method='euclidean', alpha0 =
   if (missing(lambda0))
     lambda0 = NULL
   
-  if (isSymmetric(unname(DataOrDists))) {
-    Mdist = DataOrDists
-    AnzVar = ncol(DataOrDists)
-    AnzData = nrow(DataOrDists)
+  if (isSymmetric(unname(DataOrDistances))) {
+    Mdist = DataOrDistances
+    AnzVar = ncol(DataOrDistances)
+    AnzData = nrow(DataOrDistances)
   } else{
     #!isSymmetric
-    AnzVar = ncol(DataOrDists)
-    AnzData = nrow(DataOrDists)
-    #DataDists=as.matrix(DistanceMatrix(X=DataOrDists,method = method))
+    AnzVar = ncol(DataOrDistances)
+    AnzData = nrow(DataOrDistances)
+    #DataDists=as.matrix(DistanceMatrix(X=DataOrDistances,method = method))
     Mdist = NULL
-  }# end if(isSymmetric(DataOrDists))
+  }# end if(isSymmetric(DataOrDistances))
   
   squareform=function(X)
 # y=squareform(x)
@@ -112,7 +112,7 @@ requireNamespace('pracma')
   }
 }
   
-  D = DataOrDists
+  D = DataOrDistances
   P = OutputDimension
   
   
