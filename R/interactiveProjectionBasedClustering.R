@@ -412,14 +412,17 @@ interactiveProjectionBasedClustering <-
       observeEvent(input$ExtendBorders10, {
         if(!is.null(Umatrix)){ #wir direkt bei start augeprueft
           if(input$ExtendBorders10 & isFALSE(input$Toroid)){
-            Umatrix<<-Umatrix4Toroid
-            Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
-            Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
-            #Umatrix<<-matrixnormalization(Umatrix)
-            bmu=bestmatches4Toroid
-            bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
-            bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
-            bestmatches=bmu
+            # Umatrix<<-Umatrix4Toroid
+            # Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
+            # Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
+            # #Umatrix<<-matrixnormalization(Umatrix)
+            # bmu=bestmatches4Toroid
+            # bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
+            # bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
+            # bestmatches=bmu
+            V=ExtendToroidalUmatrix(Umatrix4Toroid,bestmatches4Toroid,extendBorders)
+            Umatrix<<-V$Umatrix
+            bestmatches<<-V$Bestmatches
             createParams(Umatrix, bestmatches,Cls = Cls)
             TopographicMapTopView_hlp(Cls,input$Toroid) #shortcut: Umatrix muss existieren
           }else{
@@ -579,14 +582,17 @@ interactiveProjectionBasedClustering <-
         
         #To be deleted later, if extend borders works interactively ----
         if(input$ExtendBorders10){
-            Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
-            Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
-            #Umatrix<<-matrixnormalization(Umatrix)
-            
-            bmu=bestmatches
-            bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
-            bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
-            bestmatches=bmu
+          
+          V=ExtendToroidalUmatrix(Umatrix,bestmatches,extendBorders)
+          Umatrix<<-V$Umatrix
+          bestmatches<<-V$Bestmatches
+            #Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
+            #Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
+
+            #bmu=bestmatches
+            #bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
+            #bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
+
         }
         ## until here
         createParams(Umatrix, bestmatches,Cls = Cls)

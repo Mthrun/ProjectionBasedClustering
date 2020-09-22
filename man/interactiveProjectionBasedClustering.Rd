@@ -29,7 +29,7 @@ Returns a List of:
  [1:Lines,1:Columns] Umatrix to be plotted, numerical matrix storing the U-heights, see [Thrun, 2018] for definition.
 }
 \item{Bestmatches}{
-[1:n,2]   GridConverted Projected Points information converted by convertProjectionProjectedPoints() to predefined Grid by Lines and Columns
+[1:n,2]   Matrix of GridConverted Projected Points [1:n, 1:2] called Bestmatches that defines positions for n datapoints, first columns is the position in \code{Lines} and second column in \code{Columns}
 }
 }
 \author{

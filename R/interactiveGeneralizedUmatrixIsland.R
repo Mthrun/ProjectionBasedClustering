@@ -365,6 +365,11 @@ interactiveGeneralizedUmatrixIsland <- function(Umatrix, Bestmatches=NULL, Cls=N
       tU <- ToroidUmatrix(Matrix, Bestmatches, Cls)
       Matrix <- tU$Umatrix
       Bestmatches <- tU$Bestmatches
+      #ToDo: Wenn ich hier erweitere muss ich auch insel entsprechend verschieben und imx ausgabe entsprechend zurueckverschieben
+      #V=ExtendToroidalUmatrix(Matrix,Bestmatches[,2:3],10)
+      #Matrix <- V$Umatrix
+      #Bestmatches[,2:3] <- V$Bestmatches
+      
       Cls <- tU$Cls
     }
     

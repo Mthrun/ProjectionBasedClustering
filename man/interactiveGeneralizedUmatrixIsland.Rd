@@ -10,7 +10,7 @@ interactiveGeneralizedUmatrixIsland(Umatrix, Bestmatches=NULL, Cls=NULL)
 
 \arguments{
   \item{Umatrix}{[1:Lines,1:Columns] Matrix of Umatrix Heights}
-  \item{Bestmatches}{Array with positions of Bestmatches}
+  \item{Bestmatches}{[1:n, 1:2] Matrix with positions of Bestmatches for n datapoints, first columns is the position in \code{Lines} and second column in \code{Columns}}
   \item{Cls}{Classification of the Bestmatches}
 }
 \value{Boolean Matrix that represents the island within the tiled Umatrix.}

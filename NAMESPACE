@@ -1,5 +1,6 @@
 useDynLib(ProjectionBasedClustering)
 export(CCA)
+export(ExtendToroidalUmatrix)
 export(ICA)
 export(Isomap)
 export(KruskalStress)
