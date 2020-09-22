@@ -1,9 +1,28 @@
 interactiveProjectionBasedClustering <-
   function(Data, Cls=NULL) {
 
+    ## Schritt 0: Check and sanetize input ####
+    if (missing(Data))
+      stop("No data was given as input")
+    
+    if (!inherits(Data,"matrix")){
+      warning("Input data must be a matrix, assuming data frame and calling as.matrix()")
+      Data=as.matrix(Data)
+    }
+    
+    
+    Key=rownames(Data)
+    if(is.null(Key)){
+      warning('"Data" has no rownames. Setting Key to 1:NoOfCases and Naming Output "Cls" accordingly.')
+      Key=1:nrow(Data)
+      
+    }
+    
     # Parameter initialisieren
     Umatrix = NULL 
     bestmatches = NULL
+    Umatrix4Toroid =NULL
+    bestmatches4Toroid =NULL
     bmus = NULL 
     mergei = 1:nrow(Data) #give back all cases in one group, if function exists before clustering and no cls given
     ubmus = NULL 
@@ -11,6 +30,7 @@ interactiveProjectionBasedClustering <-
     uniq = NULL 
     outplot = NULL 
     oubmus = NULL 
+    extendBorders=10
     LC=NULL
     imx<-NA
     
@@ -51,22 +71,7 @@ interactiveProjectionBasedClustering <-
     }
     
     
-    ## Schritt 0: Check and sanetize input ####
-    if (missing(Data))
-      stop("No data was given as input")
-    
-    if (!inherits(Data,"matrix")){
-      warning("Input data must be a matrix, assuming data frame and calling as.matrix()")
-      Data=as.matrix(Data)
-    }
-    
-    
-    Key=rownames(Data)
-    if(is.null(Key)){
-      warning('"Data" has no rownames. Setting Key to 1:NoOfCases and Naming Output "Cls" accordingly.')
-      Key=1:nrow(Data)
-      
-    }
+
 
     colormap=GeneralizedUmatrix::UmatrixColormap
     ax <- list(
@@ -210,6 +215,8 @@ interactiveProjectionBasedClustering <-
                 actionButton("generate", HTML("Visual Analytics <br/> with g. U-Matrix"), icon = icon("calculator")),
                 tags$hr(),
                 numericInput("markerSize", "Bestmatch Size", value=7, min = 1, max = 30, step = 0.1),
+                numericInput("ExtendBorders", 'Set Extend Borders "x"', value=10, min = 0, max = 100, step = 1),
+                checkboxInput(inputId = 'ExtendBorders10',label = 'Extend Borders by "x" Lines & Columns',value = FALSE),
                 checkboxInput(inputId = 'Toroid',label = 'Toroidal',value = FALSE)
               ),
   
@@ -401,10 +408,37 @@ interactiveProjectionBasedClustering <-
         TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
       })
       
-      #Toroid
+      ##Simple Extend ----
+      observeEvent(input$ExtendBorders10, {
+        if(!is.null(Umatrix)){ #wir direkt bei start augeprueft
+          if(input$ExtendBorders10 & isFALSE(input$Toroid)){
+            Umatrix<<-Umatrix4Toroid
+            Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
+            Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
+            #Umatrix<<-matrixnormalization(Umatrix)
+            bmu=bestmatches4Toroid
+            bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
+            bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
+            bestmatches=bmu
+            createParams(Umatrix, bestmatches,Cls = Cls)
+            TopographicMapTopView_hlp(Cls,input$Toroid) #shortcut: Umatrix muss existieren
+          }else{
+            bestmatches<<-bestmatches4Toroid
+            Umatrix<<-Umatrix4Toroid
+            createParams(Umatrix4Toroid, bestmatches4Toroid,Cls = Cls)
+            TopographicMapTopView_hlp(Cls,input$Toroid) #shortcut: Umatrix muss existieren
+          }
+        }
+      })
+      
+      ##Toroidal ----
       observeEvent(input$Toroid, {
-        if(!is.null(Umatrix)) #wir direkt bei start augeprueft
+        if(!is.null(Umatrix)){ #wir direkt bei start augeprueft
+          bestmatches<<-bestmatches4Toroid
+          Umatrix<<-Umatrix4Toroid
+          createParams(Umatrix4Toroid, bestmatches4Toroid,Cls = Cls)
           TopographicMapTopView_hlp(Cls,input$Toroid) #shortcut: Umatrix muss existieren
+        }
       })
       
       # Button: Create new cluster
@@ -458,7 +492,53 @@ interactiveProjectionBasedClustering <-
         } 
  
       })
-      
+      observeEvent(input$ExtendBorders, {
+        if(!is.null(input$ExtendBorders)){
+                if(is.finite(input$ExtendBorders)){
+                  extendBorders<<-input$ExtendBorders
+                }
+        }
+      })
+      ## ExtendBorders----
+      #ToDo: extend more than once
+      # observeEvent(input$ExtendBorders, {
+      #   if(!is.null(Umatrix)){
+      #     if(!is.null(input$ExtendBorders)){
+      #       if(is.finite(input$ExtendBorders)){
+      #     if(input$ExtendBorders>0){
+      #     extendBorders<<-input$ExtendBorders
+      #     Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
+      #     Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
+      #     Umatrix<<-matrixnormalization(Umatrix)
+      #     bmu=bestmatches
+      #     bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
+      #     bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
+      #     bestmatches<<-bmu
+      #     createParams(Umatrix, bestmatches,Cls = Cls)
+      #     extendBorders<<-0
+      #     }
+      #     if(input$ExtendBorders<0){
+      #       extendBorders<<- -(input$ExtendBorders)
+      #       Umatrix<<-Umatrix[-c((nrow(Umatrix)-extendBorders+1):nrow(Umatrix)),]
+      #       Umatrix<<-Umatrix[-c(1:(extendBorders+1)),]
+      #       
+      #       Umatrix<<-Umatrix[,-c((ncol(Umatrix)-extendBorders+1):ncol(Umatrix))]
+      #       Umatrix<<-Umatrix[,-c(1:(extendBorders+1))]#
+      #       Umatrix<<-matrixnormalization(Umatrix)
+      #       bmu=bestmatches
+      #       bmu[,1]=bmu[,1]-length(c((nrow(Umatrix)-extendBorders+1):nrow(Umatrix)))
+      #       bmu[,2]=bmu[,2]-length(c(ncol(Umatrix)-extendBorders+1):ncol(Umatrix))
+      #       bestmatches<<-bmu
+      #       createParams(Umatrix, bestmatches,Cls = Cls)
+      #       extendBorders<<-0
+      #     }
+      #       
+      #   
+      #     TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
+      #     } 
+      #     }
+      #   }
+      # })
       
       # Calculate Projection and GeneralizedUmatrix and plot result.
       observeEvent(input$generate,{
@@ -489,9 +569,26 @@ interactiveProjectionBasedClustering <-
         }
         
         ## Generalized Umatrix ----
-        newU=GeneralizedUmatrix(Data=Data,ProjectedPoints = pData,Cls=Cls)
+        newU=GeneralizedUmatrix(Data=Data,ProjectedPoints = pData,Cls=Cls,Toroid = TRUE)
+
         Umatrix <<- newU$Umatrix
         bestmatches <<- newU$Bestmatches
+        
+        Umatrix4Toroid <<- newU$Umatrix
+        bestmatches4Toroid <<- newU$Bestmatches
+        
+        #To be deleted later, if extend borders works interactively ----
+        if(input$ExtendBorders10){
+            Umatrix<<-cbind(Umatrix[,c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix))],Umatrix,Umatrix[,1:extendBorders])
+            Umatrix<<-rbind(Umatrix[c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)),],Umatrix,Umatrix[1:extendBorders,])
+            #Umatrix<<-matrixnormalization(Umatrix)
+            
+            bmu=bestmatches
+            bmu[,1]=bmu[,1]+length(c((nrow(Umatrix)-extendBorders-1):nrow(Umatrix)))
+            bmu[,2]=bmu[,2]+length(c((ncol(Umatrix)-extendBorders-1):ncol(Umatrix)))
+            bestmatches=bmu
+        }
+        ## until here
         createParams(Umatrix, bestmatches,Cls = Cls)
         LC <<-c(newU$Lines,newU$Columns)
         TopographicMapTopView_hlp(Cls=Cls,Tiled=input$Toroid)
