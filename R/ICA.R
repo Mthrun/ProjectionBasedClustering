@@ -31,8 +31,21 @@ ICA = function(Data,OutputDimension=2,Contrastfunction="logcosh",Alpha=1,Iterati
 # Negentropie: Entropiedifferenz zu einer entsprechenden normalverteilten Zufallsvariable 
 #               J(y)=|E(G(y)-E(G(v)))|^2
 # author: MT 06/2015
-#requireRpackage('fastICA')
-	requireNamespace('fastICA')
+  
+  if (!requireNamespace('fastICA')) {
+    message(
+      'Subordinate projection package is missing. No computations are performed.
+            Please install the package which is defined in "Suggests".'
+    )
+    return(
+      list(
+        Cls = rep(1, nrow(Data)),
+        Object = "Subordinate projection package is missing.
+                Please install the package which is defined in 'Suggests'."
+      )
+    )
+  }
+
 	if(missing(Data))
 		stop('No Data given')
 	Data;

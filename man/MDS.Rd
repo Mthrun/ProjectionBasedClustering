@@ -52,7 +52,7 @@ A wrapper for \code{cmdscale}
 data('Hepta')
 Data=Hepta$Data
 
-Proj=ICA(Data)
+Proj=MDS(Data)
 
 \dontrun{
 PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)

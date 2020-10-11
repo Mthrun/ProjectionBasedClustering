@@ -19,9 +19,21 @@ SammonsMapping = function(DataOrDistances,method='euclidean',OutputDimension=2,P
   #
   # Stress 	                                       The final stress achieved.
   # author: MT 06/2015
-  #requireRpackage('MASS')
-  requireNamespace('MASS')
-  #requireRpackage('fastICA')
+  
+  if (!requireNamespace('MASS')) {
+    message(
+      'Subordinate projection package is missing. No computations are performed.
+            Please install the package which is defined in "Suggests".'
+    )
+    return(
+      list(
+        Cls = rep(1, nrow(Data)),
+        Object = "Subordinate projection package is missing.
+                Please install the package which is defined in 'Suggests'."
+      )
+    )
+  }
+  
   if (missing(DataOrDistances))
     stop('No DataOrDistances given')
   DataOrDistances

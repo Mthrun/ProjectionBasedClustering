@@ -24,9 +24,23 @@ Isomap  = function(Distances,k,OutputDimension=2,PlotIt=FALSE,Cls){
   Distances;
 	if(!is.matrix(Distances))
 		stop('Distances has to be a matrix, maybe use as.matrix()')
-		
+	
+  if (!requireNamespace('vegan')) {
+    message(
+      'Subordinate projection package is missing. No computations are performed.
+            Please install the package which is defined in "Suggests".'
+    )
+    return(
+      list(
+        Cls = rep(1, nrow(Data)),
+        Object = "Subordinate projection package is missing.
+                Please install the package which is defined in 'Suggests'."
+      )
+    )
+  }
+  	
   if(missing(k)) stop('k nearest neighbor value missing')
-    requireNamespace('vegan')
+ 
     res=vegan::isomap(Distances,ndim = 2,k=40,fragmentedOK=T, path = "shortest")
   # requireRpackage("RDRToolbox",biocite=T)
   # 

@@ -16,7 +16,7 @@ or
 
 \code{Distances}, i.e.,[1:n,1:n], symmetric and consists of n cases, e.g., \code{as.matrix(dist(Data,method))}
 }
-\item{k}{number of k nearest neighbors=number of effective nearest neighbors("perplexity") Important parameter, if not given Settings of package t-SNE will be used}
+\item{k}{number of k nearest neighbors=number of effective nearest neighbors("perplexity"); Important parameter. If not given, settings of packages of t-SNE will be used depending \code{Algorithm}}
   \item{OutputDimension}{Number of dimensions in the Outputspace, default=2}
 	\item{Algorithm}{
 	tsne_cpp': T-Distributed Stochastic Neighbor Embedding using a Barnes-HutImplementation in C++ of \pkg{Rtsne}

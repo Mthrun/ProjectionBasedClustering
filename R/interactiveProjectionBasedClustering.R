@@ -139,7 +139,7 @@ interactiveProjectionBasedClustering <-
               tabPanel(
                 title = "Projection",
                 h3(" "),
-                selectInput('projections','Choose Projection Method',choices=c('PCA','CCA','ICA','MDS','NeRV','ProjectionPursuit','SammonsMapping','tSNE'),selected='NeRV'),
+                selectInput('projections','Choose Projection Method',choices=c('PCA','CCA','ICA','MDS','NeRV','ProjectionPursuit','SammonsMapping','tSNE','UniformManifoldApproximationProjection'),selected='NeRV'),
                 
                 # Further Parameter-Querys for Projections
                 #PCA
@@ -203,7 +203,6 @@ interactiveProjectionBasedClustering <-
                 
                 #TSNE
                 
-                
                 conditionalPanel(condition ="input.projections=='tSNE'", selectInput(
                   "tSNEMethod", "Method"  , selected = 'logcosh', c('euclidean','maximum','canberra','manhattan'))),
                 
@@ -211,6 +210,15 @@ interactiveProjectionBasedClustering <-
                                  numericInput("tSNEIterations", "Iterations", value=1000, min = 1, max = NA, step = 1)),
                 conditionalPanel(condition ="input.projections=='tSNE'", 
                                  checkboxInput("tSNEWhite", "Whitening", value = FALSE, width = NULL)),
+                
+                # UniformManifoldApproximationProjection
+                
+                 conditionalPanel(condition ="input.projections=='UniformManifoldApproximationProjection'",
+                                  numericInput("knn", "k nearest neighbors", value=15, min = 2, max = NA, step = 1)),
+                 conditionalPanel(condition ="input.projections=='UniformManifoldApproximationProjection'",
+                                  numericInput("Epochs", "training length, number of epochs", value=200, min = 2, max = NA, step = 1)),
+                
+                #Other things
                 
                 actionButton("generate", HTML("Visual Analytics <br/> with g. U-Matrix"), icon = icon("calculator")),
                 tags$hr(),
@@ -560,7 +568,8 @@ interactiveProjectionBasedClustering <-
                  NeRV = ProjectionBasedClustering::NeRV(Data= Data,OutputDimension = k,Cls=Cls, iterations = input$NERVIterations, lambda = input$NERVLambda, neighbors =input$NERVNeighbors),
                  ProjectionPursuit= ProjectionBasedClustering::ProjectionPursuit(Data,OutputDimension = k,Cls=Cls, Iterations = input$PPIterations, Indexfunction =input$PPMethod , Alpha =input$PPAlpha )$ProjectedPoints,
                  SammonsMapping= ProjectionBasedClustering::SammonsMapping(Data,OutputDimension = k,Cls=Cls, method = input$SMMethod)$ProjectedPoints,
-                 tSNE = ProjectionBasedClustering::tSNE(Data,OutputDimension = k,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints
+                 tSNE = ProjectionBasedClustering::tSNE(Data,OutputDimension = k,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints,
+                 UniformManifoldApproximationProjection = ProjectionBasedClustering::UniformManifoldApproximationProjection(Data,Cls=Cls, k = input$knn, Epochs = input$Epochs)$ProjectedPoints
           )
         }
         pData=project(type)

@@ -53,6 +53,21 @@ tSNE = function(DataOrDistances,k,OutputDimension=2,Algorithm='tsne_cpp',method=
 	
   switch(Algorithm,
          tsne_cpp={
+           if (!requireNamespace('Rtsne')) {
+             message(
+               'Subordinate projection package is missing. No computations are performed.
+            Please install the package which is defined in "Suggests".'
+             )
+             return(
+               list(
+                 Cls = rep(1, nrow(Data)),
+                 Object = "Subordinate projection package is missing.
+                Please install the package which is defined in 'Suggests'."
+               )
+             )
+           }
+           
+           
            if(is_distance){
              if(!missing(k)){
              ModelObject=Rtsne::Rtsne(X = DataDists,dims=OutputDimension,is_distance=is_distance,perplexity = k, max_iter = Iterations,pca=Whitening,...)#experimental
@@ -70,8 +85,19 @@ tSNE = function(DataOrDistances,k,OutputDimension=2,Algorithm='tsne_cpp',method=
            ProjectedPoints=ModelObject$Y
          },
   tsne_r={
-    requireNamespace('tsne')  
-    
+    if (!requireNamespace('tsne')) {
+      message(
+        'Subordinate projection package is missing. No computations are performed.
+            Please install the package which is defined in "Suggests".'
+      )
+      return(
+        list(
+          Cls = rep(1, nrow(Data)),
+          Object = "Subordinate projection package is missing.
+                Please install the package which is defined in 'Suggests'."
+        )
+      )
+    }
     if(!missing(k)){
       res=tsne::tsne(X=DataDists, initial_config = NULL, k = OutputDimension, whiten=Whitening, perplexity = k, max_iter = Iterations, ...)
     }else{
