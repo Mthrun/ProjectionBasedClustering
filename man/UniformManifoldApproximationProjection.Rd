@@ -88,3 +88,5 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{UniformManifoldApproximationProjection}
 
 \concept{Uniform Manifold Approximation Projection}
+\concept{Projection Method}
+\concept{Dimensionality Reduction}

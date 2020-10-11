@@ -73,3 +73,6 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{ICA}
 
 \concept{Independent Component Analysis}
+\concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

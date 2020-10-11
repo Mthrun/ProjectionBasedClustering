@@ -69,3 +69,6 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{CCA}
 
 \concept{Curvilinear Component Analysis}
+\concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

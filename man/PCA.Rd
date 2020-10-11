@@ -70,3 +70,6 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{PCA}
 
 \concept{Principal component analysis}
+\concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

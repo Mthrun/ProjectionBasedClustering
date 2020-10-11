@@ -47,3 +47,4 @@ Proj=Isomap(as.matrix(dist(Data)),k=7)
 PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 }
 }
+\keyword{DR}

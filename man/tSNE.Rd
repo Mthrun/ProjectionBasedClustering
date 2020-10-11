@@ -75,3 +75,6 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{tSNE}
 \concept{t-SNE}
 \concept{T-distributed Stochastic Neighbor Embedding}
+ \concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

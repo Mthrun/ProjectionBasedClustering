@@ -68,3 +68,6 @@ NeRV(Data[1:10,])
 \keyword{NeRV}
 
 \concept{neighbor retrieval visualizer}
+\concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

@@ -47,3 +47,9 @@ Michael Thrun}
  \details{
  An short overview of different types of projection methods can be found in [Thrun, 2018, p.42, Fig. 4.1] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
  }
+ 
+ \keyword{ProjectionPursuit}
+  \concept{Projection Pursuit}
+ \concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

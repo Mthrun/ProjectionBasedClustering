@@ -62,3 +62,6 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{MDS}
 
 \concept{Classical multidimensional scaling}
+\concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

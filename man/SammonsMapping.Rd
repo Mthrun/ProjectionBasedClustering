@@ -56,3 +56,6 @@ PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
 \keyword{SammonsMapping}
 
 \concept{Sammons Mapping}
+ \concept{Projection Method}
+\concept{Dimensionality Reduction}
+\keyword{DR}

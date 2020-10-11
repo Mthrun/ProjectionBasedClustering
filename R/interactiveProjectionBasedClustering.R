@@ -139,7 +139,7 @@ interactiveProjectionBasedClustering <-
               tabPanel(
                 title = "Projection",
                 h3(" "),
-                selectInput('projections','Choose Projection Method',choices=c('PCA','CCA','ICA','MDS','NeRV','ProjectionPursuit','SammonsMapping','tSNE','UniformManifoldApproximationProjection'),selected='NeRV'),
+                selectInput('projections','Choose Projection Method',choices=c('PCA','CCA','ICA','MDS','NeRV','ProjectionPursuit',"Pswarm",'SammonsMapping','UniformManifoldApproximationProjection','tSNE'),selected='NeRV'),
                 
                 # Further Parameter-Querys for Projections
                 #PCA
@@ -171,7 +171,7 @@ interactiveProjectionBasedClustering <-
                 #MDS
                 
                 conditionalPanel(condition ="input.projections=='MDS'", selectInput(
-                  "MDSMethod", "Method", selected="euclidan",
+                  "MDSMethod", "Distance Method", selected="euclidan",
                   c('euclidean','maximum','canberra','manhattan'))),
                 
                 
@@ -194,6 +194,12 @@ interactiveProjectionBasedClustering <-
                                  numericInput("PPIterations", "Iterations", value=200, min = 1, max = NA, step = 1)),
                 conditionalPanel(condition ="input.projections=='ProjectionPursuit'",
                                  numericInput("PPAlpha", "Alpha", value=1, min = 0.0001, max = NA, step = 0.0001)),
+                
+                #Polar Swarm
+                
+                conditionalPanel(condition ="input.projections=='Pswarm'", selectInput(
+                  "PswarmDistMethod", "Distance Method", selected="euclidan",
+                  c('euclidean','maximum','canberra','manhattan','chord','hellinger','geodesic','kullback','mahalanobis'))),
                 
                 #SammonsMapping
                 
@@ -551,6 +557,7 @@ interactiveProjectionBasedClustering <-
       #   }
       # })
       
+      ##Select Projection ----
       # Calculate Projection and GeneralizedUmatrix and plot result.
       observeEvent(input$generate,{
         
@@ -567,7 +574,8 @@ interactiveProjectionBasedClustering <-
                  MDS = ProjectionBasedClustering::MDS(Data,OutputDimension = k,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
                  NeRV = ProjectionBasedClustering::NeRV(Data= Data,OutputDimension = k,Cls=Cls, iterations = input$NERVIterations, lambda = input$NERVLambda, neighbors =input$NERVNeighbors),
                  ProjectionPursuit= ProjectionBasedClustering::ProjectionPursuit(Data,OutputDimension = k,Cls=Cls, Iterations = input$PPIterations, Indexfunction =input$PPMethod , Alpha =input$PPAlpha )$ProjectedPoints,
-                 SammonsMapping= ProjectionBasedClustering::SammonsMapping(Data,OutputDimension = k,Cls=Cls, method = input$SMMethod)$ProjectedPoints,
+                 MDS = ProjectionBasedClustering::MDS(Data,OutputDimension = k,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
+                 Pswarm= ProjectionBasedClustering::PolarSwarm(Data,Cls=Cls, method = input$PswarmDistMethod)$ProjectedPoints,
                  tSNE = ProjectionBasedClustering::tSNE(Data,OutputDimension = k,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints,
                  UniformManifoldApproximationProjection = ProjectionBasedClustering::UniformManifoldApproximationProjection(Data,Cls=Cls, k = input$knn, Epochs = input$Epochs)$ProjectedPoints
           )
@@ -581,6 +589,7 @@ interactiveProjectionBasedClustering <-
         }
         
         ## Generalized Umatrix ----
+       
         newU=GeneralizedUmatrix(Data=Data,ProjectedPoints = pData,Cls=Cls,Toroid = TRUE)
 
         Umatrix <<- newU$Umatrix
