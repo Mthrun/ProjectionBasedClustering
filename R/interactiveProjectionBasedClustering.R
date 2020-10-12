@@ -17,8 +17,11 @@ interactiveProjectionBasedClustering <-
       Key=1:nrow(Data)
       
     }
-    
     # Parameter initialisieren
+    LastProjectionMethodUsed=NULL
+    BestMatchesNotExtended=NULL
+    UmatrixNotExtended=NULL
+   
     Umatrix = NULL 
     bestmatches = NULL
     Umatrix4Toroid =NULL
@@ -564,22 +567,23 @@ interactiveProjectionBasedClustering <-
         shiny::showModal(shiny::modalDialog("Please wait while the Generalized U-matrix is being calculated",style = "font-size:20px", easyClose = TRUE))
         
         type=input$projections 
-        k=2
+   
         project=function(type){
           switch(type,
                  
-                 PCA = ProjectionBasedClustering::PCA(Data,Center=input$PCACenter,Scale=input$PCAscale,OutputDimension = k,Cls=Cls)$ProjectedPoints,
-                 CCA = ProjectionBasedClustering::CCA(Data,OutputDimension = k,Cls=Cls,Epochs =input$CCAEpochs, method = input$CCAMethod, alpha0=input$CCASteps)$ProjectedPoints,
-                 ICA = ProjectionBasedClustering::ICA(Data,OutputDimension = k,Cls=Cls, Iterations =input$ICAIterations,Alpha = input$ICASteps )$ProjectedPoints,
-                 MDS = ProjectionBasedClustering::MDS(Data,OutputDimension = k,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
-                 NeRV = ProjectionBasedClustering::NeRV(Data= Data,OutputDimension = k,Cls=Cls, iterations = input$NERVIterations, lambda = input$NERVLambda, neighbors =input$NERVNeighbors),
-                 ProjectionPursuit= ProjectionBasedClustering::ProjectionPursuit(Data,OutputDimension = k,Cls=Cls, Iterations = input$PPIterations, Indexfunction =input$PPMethod , Alpha =input$PPAlpha )$ProjectedPoints,
-                 MDS = ProjectionBasedClustering::MDS(Data,OutputDimension = k,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
+                 PCA = ProjectionBasedClustering::PCA(Data,Center=input$PCACenter,Scale=input$PCAscale,OutputDimension = 2,Cls=Cls)$ProjectedPoints,
+                 CCA = ProjectionBasedClustering::CCA(Data,OutputDimension = 2,Cls=Cls,Epochs =input$CCAEpochs, method = input$CCAMethod, alpha0=input$CCASteps)$ProjectedPoints,
+                 ICA = ProjectionBasedClustering::ICA(Data,OutputDimension = 2,Cls=Cls, Iterations =input$ICAIterations,Alpha = input$ICASteps )$ProjectedPoints,
+                 MDS = ProjectionBasedClustering::MDS(Data,OutputDimension = 2,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
+                 NeRV = ProjectionBasedClustering::NeRV(Data= Data,OutputDimension = 2,Cls=Cls, iterations = input$NERVIterations, lambda = input$NERVLambda, neighbors =input$NERVNeighbors),
+                 ProjectionPursuit= ProjectionBasedClustering::ProjectionPursuit(Data,OutputDimension = 2,Cls=Cls, Iterations = input$PPIterations, Indexfunction =input$PPMethod , Alpha =input$PPAlpha )$ProjectedPoints,
+                 SammonsMapping = ProjectionBasedClustering::SammonsMapping(Data,OutputDimension = 2,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
                  Pswarm= ProjectionBasedClustering::PolarSwarm(Data,Cls=Cls, method = input$PswarmDistMethod)$ProjectedPoints,
-                 tSNE = ProjectionBasedClustering::tSNE(Data,OutputDimension = k,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints,
+                 tSNE = ProjectionBasedClustering::tSNE(Data,OutputDimension = 2,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints,
                  UniformManifoldApproximationProjection = ProjectionBasedClustering::UniformManifoldApproximationProjection(Data,Cls=Cls, k = input$knn, Epochs = input$Epochs)$ProjectedPoints
           )
         }
+        LastProjectionMethodUsed<<-type
         pData=project(type)
         
         # construct full CLS from unique bestmatches
@@ -591,7 +595,10 @@ interactiveProjectionBasedClustering <-
         ## Generalized Umatrix ----
        
         newU=GeneralizedUmatrix(Data=Data,ProjectedPoints = pData,Cls=Cls,Toroid = TRUE)
-
+        #only for output/external usage
+        UmatrixNotExtended<<-newU$Umatrix
+        BestMatchesNotExtended<<- newU$Bestmatches#
+        #for internal usage and extentend bordes
         Umatrix <<- newU$Umatrix
         bestmatches <<- newU$Bestmatches
         
@@ -622,12 +629,12 @@ interactiveProjectionBasedClustering <-
       })
       
       
-      # Button: Exit
+      # Button: Exit ----
       #MT hier fehlt noch names(Cls)=Key
       observeEvent(input$Exit, {
         Cls=normCls(Cls[mergei])$normalizedCls
         names(Cls)=Key
-        stopApp(list(Cls = Cls, Plot = outplot,Umatrix=Umatrix, Bestmatches=bestmatches))
+        stopApp(list(Cls = Cls,Umatrix=UmatrixNotExtended, Bestmatches=BestMatchesNotExtended,LastProjectionMethodUsed=LastProjectionMethodUsed,TopView_TopographicMap = outplot))
       })
     })
     
