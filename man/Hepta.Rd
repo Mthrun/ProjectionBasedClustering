@@ -3,7 +3,7 @@
 
 \docType{data}
 \title{
-Hepta from FCPS
+Hepta is part of the Fundamental Clustering Problem Suit (FCPS) [Thrun/Ultsch, 2020].
 }
 \description{
 clearly defined clusters, different variances
@@ -17,7 +17,9 @@ Classes 7, stored in \code{Hepta$Cls}
 }
 
 \references{
-Ultsch, A.: U* C: Self-organized Clustering with Emergent Feature Maps, Lernen, Wissensentdeckung und Adaptivitaet (LWA), pp. 240-244, Saarbruecken, Germany, 2005. }
+[Thrun/Ultsch, 2020]	Thrun, M. C., & Ultsch, A.: Clustering Benchmark Datasets Exploiting the Fundamental Clustering Problems, Data in Brief,Vol. 30(C), pp. 105501, DOI 10.1016/j.dib.2020.105501 , 2020. 
+}
+
 \examples{
 data(Hepta)
 str(Hepta)
