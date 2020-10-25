@@ -27,7 +27,7 @@ SammonsMapping = function(DataOrDistances,method='euclidean',OutputDimension=2,P
     )
     return(
       list(
-        Cls = rep(1, nrow(Data)),
+        Cls = rep(1, nrow(DataOrDistances)),
         Object = "Subordinate projection package is missing.
                 Please install the package which is defined in 'Suggests'."
       )

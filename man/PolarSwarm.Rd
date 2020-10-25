@@ -19,9 +19,12 @@ Numerical matrix defined as either
 
 or
 
-\code{Distances}, i.e.,[1:n,1:n], symmetric and consists of n cases, e.g., \code{as.matrix(dist(Data,method))}
+\code{Distances}, i.e.,[1:n,1:n], symmetric and consists of n cases, e.g., \code{as.matrix(parallelDist::parallelDist(Data,method))}
 }
-
+  \item{method}{
+	If \code{Data} is given the method to computing the distances can be specified here.
+	Please see the documentation of package \pkg{parallelDist} for the types that are possible.
+}
   \item{PlotIt}{
 	Default: FALSE, If TRUE: Plots the projection as a 2d visualization. 
 	 OutputDimension>2: only the first two dimensions will be shown
@@ -52,12 +55,12 @@ Michael Thrun
 \examples{
 data('Hepta')
 Data=Hepta$Data
-
-Proj=PolarSwarm(Data)
-
+\donttest{
+Distances=as.matrix(dist(Data))
+Proj=PolarSwarm(Data)}
 \dontrun{
-PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)
-}
+PlotProjectedPoints(Proj$ProjectedPoints,Hepta$Cls)}
+\dontshow{Proj=PolarSwarm(as.matrix(dist(Data[1:20,])))}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

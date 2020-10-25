@@ -8,7 +8,9 @@ Uniform Manifold Approximation and Projection
 Uniform manifold approximation and projection is a technique for dimension reduction. The algorithm was described by [McInnes et al., 2018].
 }
 \usage{
-UniformManifoldApproximationProjection(DataOrDistances, k, Epochs, OutputDimension = 2, PlotIt = FALSE, Cls, ...)
+UniformManifoldApproximationProjection(DataOrDistances, k,
+
+Epochs,OutputDimension=2,Algorithm='umap_pkg',PlotIt=FALSE,Cls,\dots)
 }
 
 \arguments{

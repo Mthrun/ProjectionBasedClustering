@@ -60,7 +60,7 @@ tSNE = function(DataOrDistances,k,OutputDimension=2,Algorithm='tsne_cpp',method=
              )
              return(
                list(
-                 Cls = rep(1, nrow(Data)),
+                 Cls = rep(1, nrow(DataOrDistances)),
                  Object = "Subordinate projection package is missing.
                 Please install the package which is defined in 'Suggests'."
                )
@@ -92,7 +92,7 @@ tSNE = function(DataOrDistances,k,OutputDimension=2,Algorithm='tsne_cpp',method=
       )
       return(
         list(
-          Cls = rep(1, nrow(Data)),
+          Cls = rep(1, nrow(DataOrDistances)),
           Object = "Subordinate projection package is missing.
                 Please install the package which is defined in 'Suggests'."
         )
