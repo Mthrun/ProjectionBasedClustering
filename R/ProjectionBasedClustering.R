@@ -1,9 +1,9 @@
-ProjectionBasedClustering=function(k,Data,BestMatches,LC,StructureType=TRUE,PlotIt=FALSE,method='euclidean'){
-#Cls=DBSclustering(k,Data,BestMatches,LC,StructureType=TRUE,PlotIt=F,method='euclidean')
+ProjectionBasedClustering=function(k,DataOrDistances,BestMatches,LC,StructureType=TRUE,PlotIt=FALSE,method='euclidean'){
+#Cls=DBSclustering(k,DataOrDistances,BestMatches,LC,StructureType=TRUE,PlotIt=F,method='euclidean')
 # automated Clustering approach of the DataBionicSwarm with abstact U distances
 # INPUT
 # k                   number of classes, how many to you see in the 3d landscape?
-# Data                Matrix of Data that will be used. One DataPoint per row
+# DataOrDistances                Matrix of DataOrDistances that will be used. One DataPoint per row
 # BestMatches         Array with positions of Bestmatches=ProjectedPoints
 # LC
 # OPTIONAL  
@@ -21,31 +21,39 @@ ProjectionBasedClustering=function(k,Data,BestMatches,LC,StructureType=TRUE,Plot
 #							-> Hat Clusterung fehler und CLusterung ist nichtmehr dichte basiert
 
 
-  if(missing(Data))
+  if(missing(DataOrDistances))
     stop('Input is missing')
 	
-  if(!is.matrix(Data)){
-    warning('Input of Data or Distances is not a matrix. Trying to transform it to a matrix')
-    Data=as.matrix(Data)
+  if(!is.matrix(DataOrDistances)){
+    warning('Input of DataOrDistances or Distances is not a matrix. Trying to transform it to a matrix')
+    DataOrDistances=as.matrix(DataOrDistances)
   }
   
-  if (!isSymmetric(unname(Data)))
+  if (!isSymmetric(unname(DataOrDistances)))
     string='Data'
   else
     string='Distances'
   
 
-  if(sum(!is.finite(Data))!=0){
+  if(sum(!is.finite(DataOrDistances))!=0){
     warning(paste0('Some entries in ',string,' are not finite or missing values. Computations may not work'))
   }
-  if(!is.numeric(Data)){
+  if(!is.numeric(DataOrDistances)){
     warning(paste0(string,' is not numeric. Trying to transform it to a numeric type.'))
-    Data=as.numeric(Data)
+    mode(DataOrDistances)="numeric"
   }
  
-  GOutput=Delaunay4Points(BestMatches, Grid = LC, IsToroid=T,PlotIt=F)
-    
-    InputD=as.matrix(dist(Data,method = method))
+  if(isSymmetric(unname(DataOrDistances))){
+    InputD=DataOrDistances
+  }else{
+    if (requireNamespace('parallelDist',quietly = TRUE)) {
+      InputD=as.matrix(parallelDist::parallelDist(DataOrDistances,method=method))
+    }else{
+      InputD=as.matrix(dist(DataOrDistances,method = method))
+    }
+  }
+  
+    GOutput=Delaunay4Points(BestMatches, Grid = LC, IsToroid=T,PlotIt=F)
     Dist=ShortestGraphPathsC(GOutput,InputD)
   if(StructureType){
     pDist=as.dist(Dist)

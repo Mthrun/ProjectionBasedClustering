@@ -62,8 +62,6 @@ List of
 [McInnes et al., 2018]  McInnes, L., Healy, J., & Melville, J.: Umap: Uniform manifold approximation and projection for dimension reduction, arXiv preprint arXiv:1802.03426, 2018.
 
 [Ultsch/Siemon, 1990]  Ultsch, A., & Siemon, H. P.: Kohonen's Self Organizing Feature Maps for Exploratory Data Analysis, International Neural Network Conference, pp. 305-308, Kluwer Academic Press, Paris, France, 1990.
-
-
 }
 \author{
 Michael Thrun

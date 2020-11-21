@@ -7,24 +7,35 @@ Automatic Projection-based Clustering (PBC) [Thrun/Ultsch, 2020]
 Three steps are necessary for PBC. First, a projection method has to be chosen to generate projected points of high-dimensional data points. Second, the generalized U*-matrix has to be applied to the projected points by using a simplified emergent self-organizing map (ESOM) algorithm which is an unsupervised neural network [Thrun, 2018]. The resulting generalized U-matrix can be visualized by the topographic map [Thrun et al., 2016]. Third, the clustering itself is built on top of the generalized U-matrix using the concept of the abstract U-Matrix and shortest graph paths using \code{ShortestGraphPathsC}. 
 }
 \usage{
-ProjectionBasedClustering(k, Data, BestMatches, LC, StructureType = TRUE, PlotIt = FALSE,
-                 method = "euclidean")
+ProjectionBasedClustering(k, DataOrDistances, BestMatches, LC,
+
+StructureType = TRUE, PlotIt = FALSE, method = "euclidean")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{k}{number of clusters, how many to you see in the 3d landscape?}
-  \item{Data}{[1:n,1:d] Matrix of Data (n cases, d dimensions) that will be used. One DataPoint per row}
+  \item{DataOrDistances}{Numerical matrix that will be used for clustering with one DataPoint per row, defined as either as
+
+\code{Data}, i.e., [1:n,1:d], nonsymmetric, and consists of n cases of d-dimensional data points with every case having d attributes, variables or features,
+
+or
+
+\code{Distances}, i.e.,[1:n,1:n], symmetric and consists of n cases, e.g., \code{as.matrix(dist(Data,method))}
+
+}
   \item{BestMatches}{[1:n,1:2] Matrix with positions of Bestmatches=ProjectedPoints, one matrix line per data point}
   \item{LC}{grid size c(Lines,Columns)}
   \item{StructureType}{Optional, bool; =TRUE: compact structure of clusters assumed, =FALSE: connected structure of clusters assumed. For the two options vor Clusters, see [Thrun, 2017] or Handl et al. 2006}
   \item{PlotIt}{Optional, bool, Plots Dendrogramm}
-  \item{method}{Optional, distance method,  do not change}
+  \item{method}{Optional, distance method used in \pkg{parallelDist} if \code{Data} given.}
 }
 \details{
 ProjectionBasedClustering is a flexible and robust clustering framework based on a chose projection method and
  projection method a parameter-free high-dimensional data visualization technique. The visualization combines projected points with a topographic map with hypsometric colors, defined by the generalized U-matrix  (see package GeneralizedUmatrix function GeneralizedUmatrix). 
  
  The clustering method with no sensitive parameters is done in this function and the algorithm is introduced in detail in [Thrun/Ultsch, 2020]. The clustering can be verified by the visualization and vice versa. If you want to verifiy your clustering result externally, you can use \code{Heatmap} or \code{SilhouettePlot} of the CRAN package \code{DataVisualizations}.
+ 
+If \pkg{parallelDist} is not installed, function automatically falls back to \code{\link{dist}}.
 }
 \value{
 Cls                 [1:n] vector with selected classes of the bestmatches. You can use \code{plotTopographicMap(Umatrix,Bestmatches,Cls)} for verification.
@@ -34,7 +45,7 @@ data('Hepta')
 #Step I: 2d projection
 \donttest{projectionpoints=NeRV(Hepta$Data)
 
-#Step II: Computation of Generalized Umatrix
+#Step II (Optional): Computation of Generalized Umatrix
 library(GeneralizedUmatrix)
 visualization=GeneralizedUmatrix(Data = Hepta$Data,projectionpoints)
 # Visualizuation of GeneralizedUmatrix
@@ -44,11 +55,11 @@ TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches)
 #plotTopographicMap(visualization$Umatrix,visualization$Bestmatches)
 
 # Step III: Automatic Clustering
-LC=c(visualization$Lines,visualization$Columns)
-# number of Cluster from dendrogram or visualization (PlotIt=T)
+trafo=Projection2Bestmatches(projectionpoints)
+# number of Cluster from dendrogram  (PlotIt=T) or visualization above
 Cls=ProjectionBasedClustering(k=7, Hepta$Data, 
 
-visualization$Bestmatches, LC,PlotIt=TRUE)
+trafo$Bestmatches, trafo$LC,PlotIt=TRUE)
 
 # Verification of Clustering
 TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
@@ -69,13 +80,11 @@ TopviewTopographicMap(visualization$Umatrix,visualization$Bestmatches,Cls)
 Michael Thrun
 }
 \note{
-If you used pswarm with distance matrix instead of a data matrix you can mds transform your distances into data. The correct dimension can be found through the Sheppard diagram or kruskals stress. Additionally you can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
-
 Often it is better to mark the outliers  manually after the prozess of clustering; use in this case the visualization \code{plotTopographicMap} of the package GeneralizedUmatrix. If you would like to mark the outliers interactivly in the visualization use 
 the \code{interactiveClustering} function.
 }
-\keyword{swarm}
-\keyword{Databonic swarm}
+\keyword{PBC}
+\concept{Projection-based Clustering}
 \keyword{clustering}% __ONLY ONE__ keyword per line
-\keyword{cluster analysis}% __ONLY ONE__ keyword per line
+\concept{cluster analysis}% __ONLY ONE__ keyword per line
 \keyword{cluster}% __ONLY ONE__ keyword per line
