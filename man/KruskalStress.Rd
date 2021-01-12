@@ -25,5 +25,5 @@ A single numerical representing the Kruskal stress of the distance matrices.
 Felix Pape
 }
  \details{
- An short overview of different types of quality measures can be found in [Thrun, 2018, p.68, Fig. 6.3] (\url{https://doi.org/10.1007/978-3-658-20540-9}).
+ An short overview of different types of quality measures can be found in [Thrun, 2018, p.68, Fig. 6.3] (\doi{10.1007/978-3-658-20540-9}).
 }
