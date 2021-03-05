@@ -58,15 +58,15 @@ Tim Schreier, Felix Pape, Luis Winckelmann, Michael Thrun
 }
 
 \examples{
-data('Hepta')
-Data=Hepta$Data
-\dontrun{
-V=interactiveProjectionBasedClustering(Data)
-}
-#with prior classification
-\dontrun{
-Cls=Hepta$Cls
-V=IPBC(Data,Cls)
+if(interactive()){
+  data('Hepta')
+  Data=Hepta$Data
+
+  V=interactiveProjectionBasedClustering(Data)
+
+  # with prior classification
+  Cls=Hepta$Cls
+  V=IPBC(Data,Cls)
 }
 }
 \note{
