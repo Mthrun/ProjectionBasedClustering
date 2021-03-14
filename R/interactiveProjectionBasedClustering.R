@@ -131,7 +131,7 @@ IPBC=interactiveProjectionBasedClustering = function(Data, Cls=NULL) {
         navbarPage(
           title = "Interactive Projection-Based Clustering",
           theme = shinythemes::shinytheme("flatly"),
-            tabPanel(title = "2D                ",
+            tabPanel(title = "2.5D Display           ",
             sidebarPanel(
               width = 3,
               height="100%",
