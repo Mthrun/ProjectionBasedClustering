@@ -44,3 +44,4 @@ ggobject of ggplot2
 \author{
 Michael Thrun
 }
+
