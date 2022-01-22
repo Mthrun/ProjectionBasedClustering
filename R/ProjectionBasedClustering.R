@@ -53,8 +53,8 @@ ProjectionBasedClustering=function(k,DataOrDistances,BestMatches,LC,StructureTyp
     }
   }
   
-    GOutput=Delaunay4Points(BestMatches, Grid = LC, IsToroid=T,PlotIt=F)
-    Dist=ShortestGraphPathsC(GOutput,InputD)
+  GOutput=Delaunay4Points(BestMatches, Grid = LC, IsToroid=T,PlotIt=F)
+  Dist=ShortestGraphPathsC(GOutput,InputD)
   if(StructureType){
     pDist=as.dist(Dist)
     hc <- hclust(pDist,method="ward.D")
