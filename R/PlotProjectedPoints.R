@@ -42,7 +42,7 @@ PlotProjectedPoints <-  function(Points,Cls,BMUorProjected=F,PlotLegend=FALSE,xl
       print(ggobject)
       return(ggobject)
     } else{
-      DefaultColorSeq <- ProjectionBasedClustering::DefaultColorSequence
+      DefaultColorSeq <- GeneralizedUmatrix::DefaultColorSequence
     }
     
   }
@@ -106,7 +106,7 @@ PlotProjectedPoints <-  function(Points,Cls,BMUorProjected=F,PlotLegend=FALSE,xl
                    green = colMat[2,] / 255,
                    blue = colMat[3,] / 255)
   }
-  vec = hex_hlp(ProjectionBasedClustering::DefaultColorSequence)
+  vec = hex_hlp(GeneralizedUmatrix::DefaultColorSequence)
   ind = unique(Cls)
   # print('test')
   # if(length(ind)==1){

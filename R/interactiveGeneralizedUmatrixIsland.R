@@ -11,9 +11,13 @@ interactiveGeneralizedUmatrixIsland <- function(Umatrix, Bestmatches=NULL,
   # island         the generated Imx
   # Author: FL, MT, QS
   outputApp = NULL
+  outplot=NULL
   if(Plotter == "ggplot2"){
     outputApp = interactiveGeneralizedUmatrixIsland_ggplot(Umatrix, Bestmatches=Bestmatches, Cls=Cls)
   } else {
+    #uses
+    #helperTopographicIsland=GeneralizedUmatrix::helperTopographicIsland
+    #todo: change to TopviewTopographicMap
     outputApp = interactiveGeneralizedUmatrixIsland_plotly(Umatrix, Bestmatches=Bestmatches, Cls=Cls)
   }
   return(outputApp)

@@ -1,4 +1,5 @@
 interactiveClustering = function(Umatrix=NULL, BestMatches=NULL, Cls=NULL) {
+  outplot=NULL
   ## Schritt 2: shiny interactive tool ####
   ##########
   # Shiny Fenster
@@ -242,8 +243,8 @@ interactiveClustering = function(Umatrix=NULL, BestMatches=NULL, Cls=NULL) {
     alpha        = 1
     DotLineWidth = 1.5
     add2ClassOld = 0
-    ClsColors1   = DefaultColorSequence[1:100]
-    ClsColors2   = c("lightskyblue", DefaultColorSequence[1:100])
+    ClsColors1   = GeneralizedUmatrix::DefaultColorSequence[1:100]
+    ClsColors2   = c("lightskyblue", GeneralizedUmatrix::DefaultColorSequence[1:100])
     if(is.null(Cls)){
       Cls = rep(1,nrow(BestMatches))
     }else{

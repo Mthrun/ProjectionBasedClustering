@@ -45,7 +45,7 @@ TopviewTopographicMap(resUmatrix$Umatrix,resUmatrix$Bestmatches,Cls)
 }
 }
 
-\author{Michael Thrun, Florian Lerch}
+\author{Michael Thrun}
 \note{
 This function is a depricated version of a function from the Umatrix packages created by Florian Lerch and Michael Thrun
 }

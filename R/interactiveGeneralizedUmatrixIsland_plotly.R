@@ -15,7 +15,7 @@ interactiveGeneralizedUmatrixIsland_plotly <- function(Umatrix, Bestmatches=NULL
   #requireRpackage("tcltk")
   #FilePath<-getwd() #MT: sonst funktionierts nicht
   
-
+  outplot=NULL
   ##########
   # Shiny Fenster ----
   ##########
@@ -208,7 +208,7 @@ interactiveGeneralizedUmatrixIsland_plotly <- function(Umatrix, Bestmatches=NULL
         Cls = Cls[Idx]
       }
       #
-      plt=ProjectionBasedClustering:::helperTopographicIsland(GeneralizedUmatrix = Umatrix,
+      plt=helperTopographicIsland(GeneralizedUmatrix = Umatrix,
                                                               BestMatchingUnits = BestMatchingUnits,
                                                               Cls=Cls,
                                                               ClsColors = TmpColors,
@@ -378,8 +378,8 @@ interactiveGeneralizedUmatrixIsland_plotly <- function(Umatrix, Bestmatches=NULL
       }
     }
     
-    ClsColors1   = DefaultColorSequence[1:100]
-    ClsColors2   = c("lightskyblue", DefaultColorSequence[1:100])
+    ClsColors1   = GeneralizedUmatrix::DefaultColorSequence[1:100]
+    ClsColors2   = c("lightskyblue", GeneralizedUmatrix::DefaultColorSequence[1:100])
     
     # umatrix normieren
     Umatrix = Umatrix/max(Umatrix)

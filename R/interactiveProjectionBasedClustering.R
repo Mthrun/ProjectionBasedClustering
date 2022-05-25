@@ -512,8 +512,8 @@ IPBC=interactiveProjectionBasedClustering = function(Data, Cls=NULL) {
         if(!is.null(Umatrix)){
           #wir direkt bei start augeprueft
           #shortcut: Umatrix muss existieren
-          Clsfull <- ProjectionBasedClustering::ProjectionBasedClustering(input$NumberClusters,
-                                            Data = Data,
+          Clsfull <- ProjectionBasedClustering(k=input$NumberClusters,
+                                            DataOrDistances = Data,
                                             BestMatches = bestmatches,
                                             LC = LC,
                                             StructureType = input$StructureType,
@@ -584,16 +584,16 @@ IPBC=interactiveProjectionBasedClustering = function(Data, Cls=NULL) {
         project=function(type){
           switch(type,
                  
-                 PCA = ProjectionBasedClustering::PCA(Data,Center=input$PCACenter,Scale=input$PCAscale,OutputDimension = 2,Cls=Cls)$ProjectedPoints,
-                 CCA = ProjectionBasedClustering::CCA(Data,OutputDimension = 2,Cls=Cls,Epochs =input$CCAEpochs, method = input$CCAMethod, alpha0=input$CCASteps)$ProjectedPoints,
-                 ICA = ProjectionBasedClustering::ICA(Data,OutputDimension = 2,Cls=Cls, Iterations =input$ICAIterations,Alpha = input$ICASteps )$ProjectedPoints,
-                 MDS = ProjectionBasedClustering::MDS(Data,OutputDimension = 2,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
-                 NeRV = ProjectionBasedClustering::NeRV(Data= Data,OutputDimension = 2,Cls=Cls, iterations = input$NERVIterations, lambda = input$NERVLambda, neighbors =input$NERVNeighbors),
-                 ProjectionPursuit= ProjectionBasedClustering::ProjectionPursuit(Data,OutputDimension = 2,Cls=Cls, Iterations = input$PPIterations, Indexfunction =input$PPMethod , Alpha =input$PPAlpha )$ProjectedPoints,
-                 SammonsMapping = ProjectionBasedClustering::SammonsMapping(Data,OutputDimension = 2,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
-                 Pswarm= ProjectionBasedClustering::PolarSwarm(Data,Cls=Cls, method = input$PswarmDistMethod)$ProjectedPoints,
-                 tSNE = ProjectionBasedClustering::tSNE(Data,OutputDimension = 2,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints,
-                 UniformManifoldApproximationProjection = ProjectionBasedClustering::UniformManifoldApproximationProjection(Data,Cls=Cls, k = input$knn, Epochs = input$Epochs)$ProjectedPoints
+                 PCA = PCA(Data,Center=input$PCACenter,Scale=input$PCAscale,OutputDimension = 2,Cls=Cls)$ProjectedPoints,
+                 CCA = CCA(Data,OutputDimension = 2,Cls=Cls,Epochs =input$CCAEpochs, method = input$CCAMethod, alpha0=input$CCASteps)$ProjectedPoints,
+                 ICA =ICA(Data,OutputDimension = 2,Cls=Cls, Iterations =input$ICAIterations,Alpha = input$ICASteps )$ProjectedPoints,
+                 MDS = MDS(Data,OutputDimension = 2,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
+                 NeRV = NeRV(Data= Data,OutputDimension = 2,Cls=Cls, iterations = input$NERVIterations, lambda = input$NERVLambda, neighbors =input$NERVNeighbors),
+                 ProjectionPursuit=ProjectionPursuit(Data,OutputDimension = 2,Cls=Cls, Iterations = input$PPIterations, Indexfunction =input$PPMethod , Alpha =input$PPAlpha )$ProjectedPoints,
+                 SammonsMapping = SammonsMapping(Data,OutputDimension = 2,Cls=Cls,  method=input$MDSMethod)$ProjectedPoints,
+                 Pswarm= PolarSwarm(Data,Cls=Cls, method = input$PswarmDistMethod)$ProjectedPoints,
+                 tSNE = tSNE(Data,OutputDimension = 2,Cls=Cls, method = input$tSNEMethod, Iterations = input$tSNEIterations, Whitening = input$tSNEWhite)$ProjectedPoints,
+                 UniformManifoldApproximationProjection = UniformManifoldApproximationProjection(Data,Cls=Cls, k = input$knn, Epochs = input$Epochs)$ProjectedPoints
           )
         }
         LastProjectionMethodUsed<<-type

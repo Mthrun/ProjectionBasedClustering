@@ -42,7 +42,7 @@ or
  
  \note{
  Only Transfered from matlab to R. Matlabversion: Contributed to SOM Toolbox 2.0, February 2nd, 2000 by Juha Vesanto
-  \url{http://www.cis.hut.fi/projects/somtoolbox/}
+  \url{https://www.cis.hut.fi/projects/somtoolbox/}
 
  You can use the standard \code{ShepardScatterPlot} or the better approach through the \code{ShepardDensityPlot} of the CRAN package \code{DataVisualizations}.
 }
