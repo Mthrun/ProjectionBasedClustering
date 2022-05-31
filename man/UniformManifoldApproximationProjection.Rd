@@ -33,9 +33,9 @@ Number of eppochs (scalar), i.e, training length, default of package \pkg{umap} 
 Number of dimensions in the Outputspace, default=2
 }
 	\item{Algorithm}{
-	'umap': provides an interface for two implementations. One is written from scratch other one requires python \pkg{umap}
+	\code{"umap_pkg"}: provides an interface for two implementations. One is written from scratch other one requires python \pkg{umap}
 	
-    'uwot_pkg': complete re-implementation in R (and C++, via the 'Rcpp' package) of \pkg{uwot}
+    \code{"uwot_pkg"}: complete re-implementation in R (and C++, via the 'Rcpp' package) of \pkg{uwot}
 }
 
   \item{PlotIt}{
@@ -55,7 +55,7 @@ To the knowledge of the author of this function no peer-reviewed publication of 
 \value{
 List of 
  \item{ProjectedPoints}{[1:n,OutputDimension], n by OutputDimension matrix containing coordinates of the Projection}
-  \item{ModelObject}{output of  \code{\link[umap]{umap}}}
+  \item{ModelObject}{output of  \code{\link[umap]{umap}} or of package \pkg{uwot} depending on \code{Algorithm}}
    \item{Setting}{specific settings used in \code{UniformManifoldApproximationProjection}}
 }
 \references{
@@ -71,7 +71,9 @@ Uniform Manifold Approximation and Projection and U-matrix [Ultsch/Siemon, 1990]
 }
 
 \seealso{
-\code{\link[umap]{umap}}
+\code{\link[umap]{umap}} of \pkg{umap}
+
+\code{\link[uwot]{umap}} of \pkg{uwot}
 }
 \examples{
 data('Hepta')

@@ -8,6 +8,9 @@ UniformManifoldApproximationProjection=function(DataOrDistances,k,Epochs,OutputD
   if(!is.matrix(DataOrDistances))
     stop('DataOrDistances has to be a matrix, maybe use as.matrix()')
   
+  if(Algorithm=="umap") Algorithm="umap_pkg"
+  if(Algorithm=="uwot") Algorithm="uwot_pkg"
+  
   switch(Algorithm,
          umap_pkg={
            
@@ -54,7 +57,8 @@ UniformManifoldApproximationProjection=function(DataOrDistances,k,Epochs,OutputD
     }
     print(custom.settings)
   }
- 
+
+    
   proj=umap::umap(d=DataOrDistances,config = custom.settings,method = "naive")
   ProjectedPoints=proj$layout
          }, 
@@ -91,6 +95,16 @@ UniformManifoldApproximationProjection=function(DataOrDistances,k,Epochs,OutputD
     
     ProjectedPoints=proj
 
+  },{
+    message(
+      'UniformManifoldApproximationProjection: Incorrected choice of algorithm. Choices are either "umap_pkg" or "uwot_pkg".'
+    )
+    return(
+      list(
+        Cls = rep(1, nrow(DataOrDistances)),
+        Object = 'Incorrected choice of algorithm. Choices are either "umap_pkg" or "uwot_pkg".'
+      )
+    )
   })
  
   
